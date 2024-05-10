@@ -102,6 +102,11 @@ class LcdGuiService {
 
   DisplayInfo displayInfo() const;
 
+  template<typename T>
+  T currentDialog() {
+    return reinterpret_cast<T>(current_dialog_);
+  }
+
 };
 
 
