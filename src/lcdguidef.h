@@ -60,7 +60,7 @@ typedef void (*option_change_event_t)(uint8_t index);
 
 typedef void (*result_choose_event_t)(uint8_t option);
 
-typedef bool (*input_event_t)(uint8_t option);
+typedef bool (*input_event_t)(uint8_t input);
 
 struct DisplayInfo {
   const uint8_t columns;
