@@ -25,8 +25,8 @@ option_list toggle_option_list = OPTION_BUILDER("OFF", "ON");
 option_list title_language_option_list = OPTION_BUILDER("EN", "DE");
 option_list step_option_list = OPTION_BUILDER("1", "5", "10", "20", "50", "100");
 
-const String title_en = "This is a lcd";
-const String title_de = "Das ist ein lcd";
+const char* title_en = "This is a lcd";
+const char* title_de = "Das ist ein lcd";
 
 uint8_t step_count = 1;
 int16_t x = 0;
