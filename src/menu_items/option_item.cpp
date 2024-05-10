@@ -77,6 +77,18 @@ uint8_t OptionMenuItem::currentOption() const {
   return option_cursor_;
 }
 
+void OptionMenuItem::currentOption(const uint8_t &index) {
+  const uint8_t& count = option_list_->count();
+  if(count == 0) {
+    return;
+  }
+  if(index >= count) {
+    option_cursor_ = count - 1;
+    return;
+  }
+  option_cursor_ = index;
+}
+
 String OptionMenuItem::text() const {
   return { text_ };
 }

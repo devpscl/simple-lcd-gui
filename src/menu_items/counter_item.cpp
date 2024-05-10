@@ -70,12 +70,26 @@ int16_t CounterMenuItem::value() const {
   return value_;
 }
 
+void CounterMenuItem::value(const int16_t &value) {
+  value_ = value < min_value_ ? min_value_ : value > max_value_ ? max_value_ : value;
+}
+
 int16_t CounterMenuItem::minValue() const {
   return min_value_;
 }
 
+void CounterMenuItem::minValue(const int16_t &min) {
+  min_value_ = min;
+  value(value_);
+}
+
 int16_t CounterMenuItem::maxValue() const {
   return max_value_;
+}
+
+void CounterMenuItem::maxValue(const int16_t &max) {
+  max_value_ = max;
+  value(value_);
 }
 
 counter_change_event_t CounterMenuItem::changeEvent() {

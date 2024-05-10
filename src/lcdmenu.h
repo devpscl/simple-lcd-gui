@@ -133,9 +133,15 @@ class CounterMenuItem : public MenuItem {
 
   int16_t value() const;
 
+  void value(const int16_t& value);
+
   int16_t minValue() const;
 
+  void minValue(const int16_t& min);
+
   int16_t maxValue() const;
+
+  void maxValue(const int16_t& max);
 
   counter_change_event_t changeEvent();
 
@@ -170,6 +176,8 @@ class OptionMenuItem : public MenuItem {
   option_change_event_t changeEvent();
 
   uint8_t currentOption() const;
+
+  void currentOption(const uint8_t& index);
 
   String text() const;
 
@@ -210,6 +218,11 @@ class MenuDialog : public GuiDialog {
   size_t itemCount() const;
 
   gui_dialog clone() override;
+
+  template<typename T>
+  T itemAt(const size_t &index) {
+    return reinterpret_cast<T>(itemAt(index));
+  }
 
 };
 
