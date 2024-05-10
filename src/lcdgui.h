@@ -8,7 +8,7 @@ namespace lcdgui {
 
 #define MENU_BUILDER(...) new MenuDialog(new menu_item[ \
 lcdgui::vaCount(__VA_ARGS__)]{__VA_ARGS__}, lcdgui::vaCount(__VA_ARGS__))
-#define OPTION_BUILDER(...) new OptionList(new String[lcdgui::vaCount(__VA_ARGS__)]{__VA_ARGS__}, \
+#define OPTION_BUILDER(...) new OptionList(new const char*[lcdgui::vaCount(__VA_ARGS__)]{__VA_ARGS__}, \
 lcdgui::vaCount(__VA_ARGS__))
 
 #define DUMMY_MENU_ITEM(text) new DummyMenuItem(text)
@@ -23,6 +23,8 @@ new CounterMenuItem(text,value,min,max,style,event)
 #define ACTION_MENU_ITEM_VA(...) new ActionMenuItem(__VA_ARGS__)
 #define COUNTER_MENU_ITEM_VA(...) new CounterMenuItem(__VA_ARGS__)
 #define OPTION_MENU_ITEM_VA(...) new OptionMenuItem(__VA_ARGS__)
+
+#define GET_ITEM(dialog,index,type) (reinterpret_cast<type>((reinterpret_cast<menu_dialog>(dialog))->itemAt(index)))
 
 }
 

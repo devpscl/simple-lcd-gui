@@ -20,20 +20,20 @@ typedef OptionMenuItem *option_menu_item;
 typedef OptionList *option_list;
 
 class OptionList {
-  String *arr_;
+  const char** arr_;
   uint8_t count_;
 
  public:
 
-  OptionList(String *arr, const uint8_t &count);
+  OptionList(const char** arr, const uint8_t &count);
 
-  String option(const uint8_t &index);
+  const char* option(const uint8_t &index);
 
-  String option(const uint8_t &index) const;
+  const char* option(const uint8_t &index) const;
 
   uint8_t count() const;
 
-  String operator[](const uint8_t &index);
+  const char* operator[](const uint8_t &index);
 
 };
 
@@ -68,7 +68,7 @@ class MenuItem {
 };
 
 class DummyMenuItem : public MenuItem {
-  String text_;
+  const char* text_;
 
  protected:
   void build(LcdBuffer &buffer, const uint8_t &max_length) override;
@@ -76,11 +76,11 @@ class DummyMenuItem : public MenuItem {
   bool input(const uint8_t &input, gui_dialog dialog) override;
 
  public:
-  explicit DummyMenuItem(const String &text);
+  explicit DummyMenuItem(const char* text);
 
-  String text() const;
+  const char* text() const;
 
-  void text(const String& text);
+  void text(const char* text);
 
   menu_item clone() const override;
 
@@ -89,7 +89,7 @@ class DummyMenuItem : public MenuItem {
 };
 
 class ActionMenuItem : public MenuItem {
-  String text_;
+  const char* text_;
   action_event_t event_;
 
  protected:
@@ -98,13 +98,13 @@ class ActionMenuItem : public MenuItem {
   bool input(const uint8_t &input, gui_dialog dialog) override;
 
  public:
-  explicit ActionMenuItem(const String &text, action_event_t action_event = nullptr);
+  explicit ActionMenuItem(const char* text, action_event_t action_event = nullptr);
 
   action_event_t event();
 
-  String text() const;
+  const char* text() const;
 
-  void text(const String& text);
+  void text(const char* text);
 
   menu_item clone() const override;
 
@@ -113,7 +113,7 @@ class ActionMenuItem : public MenuItem {
 };
 
 class CounterMenuItem : public MenuItem {
-  String text_;
+  const char* text_;
   int16_t value_ = 0;
   int16_t min_value_ = 0;
   int16_t max_value_ = 0;
@@ -127,8 +127,8 @@ class CounterMenuItem : public MenuItem {
 
  public:
 
-  explicit CounterMenuItem(const String &text, int16_t value = 0, int16_t min_value = 0,
-                  int16_t max_value = 10, const OptionItemStyle& item_style = OptionItemStyle::Bracketed,
+  explicit CounterMenuItem(const char* text, int16_t value = 0, int16_t min_value = 0,
+                  int16_t max_value = 10, OptionItemStyle item_style = OptionItemStyle::Bracketed,
                   counter_change_event_t change_event = nullptr);
 
   int16_t value() const;
@@ -145,9 +145,9 @@ class CounterMenuItem : public MenuItem {
 
   counter_change_event_t changeEvent();
 
-  String text() const;
+  const char* text() const;
 
-  void text(const String& text);
+  void text(const char* text);
 
   menu_item clone() const override;
 
@@ -156,7 +156,7 @@ class CounterMenuItem : public MenuItem {
 };
 
 class OptionMenuItem : public MenuItem {
-  String text_;
+  const char* text_;
   option_list option_list_;
   option_change_event_t change_event_;
   uint8_t option_cursor_ = 0;
@@ -169,7 +169,7 @@ class OptionMenuItem : public MenuItem {
 
  public:
 
-  OptionMenuItem(const String& text, option_list option_list,
+  OptionMenuItem(const char* text, option_list option_list,
                  const OptionItemStyle& item_style = OptionItemStyle::Bracketed,
                  option_change_event_t change_event = nullptr);
 
@@ -179,9 +179,9 @@ class OptionMenuItem : public MenuItem {
 
   void currentOption(const uint8_t& index);
 
-  String text() const;
+  const char* text() const;
 
-  void text(const String& text);
+  void text(const char* text);
 
   menu_item clone() const override;
 

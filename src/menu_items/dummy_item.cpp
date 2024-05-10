@@ -10,15 +10,15 @@ bool DummyMenuItem::input(const uint8_t &input, gui_dialog dialog) {
   return EVENT_SEND;
 }
 
-DummyMenuItem::DummyMenuItem(const String &text) {
+DummyMenuItem::DummyMenuItem(const char* text) {
   text_ = text;
 }
 
-String DummyMenuItem::text() const {
-  return { text_ };
+const char* DummyMenuItem::text() const {
+  return  text_ ;
 }
 
-void DummyMenuItem::text(const String &text) {
+void DummyMenuItem::text(const char* text) {
   text_ = text;
 }
 
