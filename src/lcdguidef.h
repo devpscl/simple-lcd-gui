@@ -54,7 +54,7 @@ typedef MenuDialog *menu_dialog;
 
 typedef void (*action_event_t)();
 
-typedef void (*counter_change_event_t)(uint16_t value, int8_t offset);
+typedef void (*counter_change_event_t)(int16_t value, int8_t offset);
 
 typedef void (*option_change_event_t)(uint8_t index);
 
