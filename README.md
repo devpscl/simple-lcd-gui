@@ -1,1 +1,1 @@
-# simple-lcd-menu
+# simple-lcd-gui
