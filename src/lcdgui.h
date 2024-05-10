@@ -19,7 +19,10 @@ new CounterMenuItem(text,value,min,max,style,event)
 #define OPTION_MENU_ITEM(text,option_list) new OptionMenuItem(text,option_list)
 #define OPTION_MENU_ITEM_EXTENDED(text,option_list,style,event) new OptionMenuItem(text,option_list,style,event)
 
-
+#define DUMMY_MENU_ITEM_VA(...) new DummyMenuItem(__VA_ARGS__)
+#define ACTION_MENU_ITEM_VA(...) new ActionMenuItem(__VA_ARGS__)
+#define COUNTER_MENU_ITEM_VA(...) new CounterMenuItem(__VA_ARGS__)
+#define OPTION_MENU_ITEM_VA(...) new OptionMenuItem(__VA_ARGS__)
 
 }
 
