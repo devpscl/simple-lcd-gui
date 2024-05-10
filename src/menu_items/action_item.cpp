@@ -7,7 +7,7 @@ void ActionMenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
 }
 
 bool ActionMenuItem::input(const uint8_t &input, gui_dialog dialog) {
-  if(input == LCD_INPUT_NEXT || input == LCD_INPUT_LEFT) {
+  if(input == LCD_INPUT_NEXT || input == LCD_INPUT_RIGHT) {
     if(event_ != nullptr) {
       event_();
     }
