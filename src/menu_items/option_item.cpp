@@ -30,7 +30,7 @@ void OptionMenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
   }
 }
 
-bool OptionMenuItem::input(const uint8_t &input, gui_dialog dialog) {
+bool OptionMenuItem::input(const uint8_t &input, menu_dialog dialog) {
   uint8_t count = option_list_->count();
   if(count == 0) {
     return EVENT_SEND;

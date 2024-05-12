@@ -6,7 +6,7 @@ void DummyMenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
   buffer << text_;
 }
 
-bool DummyMenuItem::input(const uint8_t &input, gui_dialog dialog) {
+bool DummyMenuItem::input(const uint8_t &input, menu_dialog dialog) {
   return EVENT_SEND;
 }
 

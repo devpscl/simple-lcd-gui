@@ -54,7 +54,7 @@ class MenuItem {
  protected:
   virtual void build(LcdBuffer &buffer, const uint8_t &max_length);
 
-  virtual bool input(const uint8_t &input, gui_dialog dialog);
+  virtual bool input(const uint8_t &input, menu_dialog dialog);
 
   friend class MenuDialog;
 
@@ -73,7 +73,7 @@ class DummyMenuItem : public MenuItem {
  protected:
   void build(LcdBuffer &buffer, const uint8_t &max_length) override;
 
-  bool input(const uint8_t &input, gui_dialog dialog) override;
+  bool input(const uint8_t &input, menu_dialog dialog) override;
 
  public:
   explicit DummyMenuItem(const char* text);
@@ -95,7 +95,7 @@ class ActionMenuItem : public MenuItem {
  protected:
   void build(LcdBuffer &buffer, const uint8_t &max_length) override;
 
-  bool input(const uint8_t &input, gui_dialog dialog) override;
+  bool input(const uint8_t &input, menu_dialog dialog) override;
 
  public:
   explicit ActionMenuItem(const char* text, action_event_t action_event = nullptr);
@@ -123,7 +123,7 @@ class CounterMenuItem : public MenuItem {
  protected:
   void build(LcdBuffer &buffer, const uint8_t &max_length) override;
 
-  bool input(const uint8_t &input, gui_dialog dialog) override;
+  bool input(const uint8_t &input, menu_dialog dialog) override;
 
  public:
 
@@ -165,7 +165,7 @@ class OptionMenuItem : public MenuItem {
  protected:
   void build(LcdBuffer &buffer, const uint8_t &max_length) override;
 
-  bool input(const uint8_t &input, gui_dialog dialog) override;
+  bool input(const uint8_t &input, menu_dialog dialog) override;
 
  public:
 
