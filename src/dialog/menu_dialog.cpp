@@ -116,7 +116,12 @@ size_t MenuDialog::cursor() const {
 }
 
 void MenuDialog::cursor(const size_t &cursor) {
+  if(lcg_instance == nullptr) {
+    return;
+  }
+  const uint8_t& rows = lcg_instance->rows() - 1;
   item_cursor_ = cursor < item_count_ ? cursor : 0;
+  cursor_offset_ = (rows > item_cursor_) ? 0 : item_cursor_ - rows;
   updateDisplay();
 }
 
