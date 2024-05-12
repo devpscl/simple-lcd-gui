@@ -23,7 +23,14 @@ void MenuDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
   if(input_event_ != nullptr && input_event_(input)) {
     return;
   }
-  if(input == LCD_INPUT_UP && item_cursor_ > 0) {
+  if(input == LCD_INPUT_UP) {
+    if(item_cursor_ == 0) {
+      if(flags_ & MENU_FLAG_CYLINDER_SCROLL) {
+        cursor(item_count_);
+        updateDisplay();
+      }
+      return;
+    }
     if(first_row == item_cursor_) {
       cursor_offset_--;
     }
@@ -31,7 +38,14 @@ void MenuDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
     updateDisplay();
     return;
   }
-  if(input == LCD_INPUT_DOWN && item_cursor_ < item_count_ - 1) {
+  if(input == LCD_INPUT_DOWN) {
+    if(item_cursor_ >= item_count_ - 1) {
+      if(flags_ & MENU_FLAG_CYLINDER_SCROLL) {
+        cursor(0);
+        updateDisplay();
+      }
+      return;
+    }
     if(last_row == item_cursor_) {
       cursor_offset_++;
     }
@@ -52,6 +66,14 @@ MenuDialog::~MenuDialog() {
 MenuDialog::MenuDialog(MenuItem** menu_items, const size_t &count) {
   menu_items_ = menu_items;
   item_count_ = count;
+}
+
+uint8_t MenuDialog::flags() const {
+  return flags_;
+}
+
+void MenuDialog::flags(uint8_t flags) {
+  flags_ = flags;
 }
 
 uint8_t MenuDialog::rowOf(const size_t& index) {
@@ -120,7 +142,7 @@ void MenuDialog::cursor(const size_t &cursor) {
     return;
   }
   const uint8_t& rows = lcg_instance->rows() - 1;
-  item_cursor_ = cursor < item_count_ ? cursor : 0;
+  item_cursor_ = cursor < item_count_ ? cursor : item_count_;
   cursor_offset_ = (rows > item_cursor_) ? 0 : item_cursor_ - rows;
   updateDisplay();
 }
