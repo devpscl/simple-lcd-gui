@@ -26,6 +26,8 @@ new CounterMenuItem(text,value,min,max,style,event)
 
 #define GET_ITEM(dialog,index,type) (reinterpret_cast<type>((reinterpret_cast<menu_dialog>(dialog))->itemAt(index)))
 
+#define RESULT_DIALOG(message,options,event) new ResultDialog(message,options,event)
+
 }
 
 #endif //SIMPLE_LCD_MENU_SRC_LCDGUI_H_

@@ -8,6 +8,9 @@ namespace lcdgui {
 #define RESULT_OPTION_NO      0x2
 #define RESULT_OPTION_OK      0x4
 
+/**Only input*/
+#define RESULT_OPTION_CANCEL  0x8
+
 class GuiDialog {
 
  private:

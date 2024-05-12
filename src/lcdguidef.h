@@ -44,13 +44,19 @@ typedef LiquidCrystal_I2C* lcd_native_type;
 #define LCD_CHAR_ARROW_DOWN     '\u0002'
 #define LCD_CHAR_ARROW_RIGHT    '\u0003'
 
+#define DIALOG_DO_NOTHING       0
+#define DIALOG_ONLY_CLOSE       1
+#define DIALOG_DISPOSE          2
+
 class LiquidCrystalGui;
 
 class GuiDialog;
 class MenuDialog;
+class ResultDialog;
 
-typedef GuiDialog *gui_dialog;
-typedef MenuDialog *menu_dialog;
+typedef GuiDialog* gui_dialog;
+typedef MenuDialog* menu_dialog;
+typedef ResultDialog* result_dialog;
 
 typedef void (*action_event_t)();
 
@@ -58,7 +64,7 @@ typedef void (*counter_change_event_t)(int16_t value, int8_t offset);
 
 typedef void (*option_change_event_t)(uint8_t index);
 
-typedef void (*result_choose_event_t)(uint8_t option);
+typedef int (*result_choose_event_t)(uint8_t option);
 
 typedef bool (*input_event_t)(uint8_t input);
 

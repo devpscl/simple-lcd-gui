@@ -55,8 +55,17 @@ void ResultDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
     }
     return;
   }
-  if(input == LCD_INPUT_NEXT && choose_event_ != nullptr) {
-    choose_event_(focusedOption());
+  if((input == LCD_INPUT_NEXT || input == LCD_INPUT_CANCEL) && choose_event_ != nullptr) {
+    uint8_t action = choose_event_(input == LCD_INPUT_CANCEL ? RESULT_OPTION_CANCEL : focusedOption());
+    switch (action) {
+      case DIALOG_ONLY_CLOSE:
+        close();
+        break;
+      case DIALOG_DISPOSE:
+        dispose();
+        break;
+      default:break;
+    }
   }
 }
 
@@ -88,19 +97,19 @@ uint8_t ResultDialog::focusedOption() const {
   uint8_t c_pos = 0;
   if(options_ & RESULT_OPTION_OK) {
     if(c_pos == option_cursor_) {
-      return c_pos;
+      return RESULT_OPTION_OK;
     }
     c_pos++;
   }
   if(options_ & RESULT_OPTION_YES) {
     if(c_pos == option_cursor_) {
-      return c_pos;
+      return RESULT_OPTION_YES;
     }
     c_pos++;
   }
   if(options_ & RESULT_OPTION_NO) {
     if(c_pos == option_cursor_) {
-      return c_pos;
+      return RESULT_OPTION_NO;
     }
   }
   return 0;
