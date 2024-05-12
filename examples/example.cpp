@@ -18,7 +18,7 @@ using namespace lcdgui;
 
 uint8_t last_keypad_input = 0;
 
-LcdGuiService lcd_main(PIN_RS, PIN_EN, PIN_D4, PIN_D5, PIN_D6,
+LiquidCrystalGui lcd_main(PIN_RS, PIN_EN, PIN_D4, PIN_D5, PIN_D6,
                        PIN_D7, LCD_COLS, LCD_ROWS);
 
 option_list toggle_option_list = OPTION_BUILDER("OFF", "ON");
@@ -45,6 +45,8 @@ void event3dChangeXValue(int16_t value, int8_t offset);
 void event3dChangeYValue(int16_t value, int8_t offset);
 void event3dChangeZValue(int16_t value, int8_t offset);
 
+void event3dReset();
+
 menu_dialog dialog_main = MENU_BUILDER(
     DUMMY_MENU_ITEM(title_en),
     COUNTER_MENU_ITEM_EXTENDED("Ledcontrol", 0, 0, 1024, OptionItemStyle::Bracketed, eventCounterChange),
@@ -59,7 +61,8 @@ menu_dialog dialog_3d = MENU_BUILDER(
     OPTION_MENU_ITEM_VA("Step", step_option_list, OptionItemStyle::ColonSplit, event3dChangeStepValue),
     COUNTER_MENU_ITEM_VA("X", x, 0, 8192, OptionItemStyle::ColonSplit, event3dChangeXValue),
     COUNTER_MENU_ITEM_VA("Y", y, 0, 8192, OptionItemStyle::ColonSplit, event3dChangeYValue),
-    COUNTER_MENU_ITEM_VA("Z", z, 0, 8192, OptionItemStyle::ColonSplit, event3dChangeZValue)
+    COUNTER_MENU_ITEM_VA("Z", z, 0, 8192, OptionItemStyle::ColonSplit, event3dChangeZValue),
+    ACTION_MENU_ITEM_VA("Reset", event3dReset)
 );
 
 void eventCounterChange(int16_t value, int8_t offset) {
@@ -137,6 +140,23 @@ void event3dChangeZValue(int16_t value, int8_t offset) {
   auto current_dialog = lcd_main.currentDialog<menu_dialog>();
   auto item = current_dialog->itemAt<counter_menu_item>(3);
   item->value(new_value);
+}
+
+void event3dReset() {
+  result_dialog dialog = RESULT_DIALOG("Are you sure?",RESULT_OPTION_YES | RESULT_OPTION_NO,
+                      [](uint8_t option){
+                        if(option == RESULT_OPTION_YES) {
+                          auto x_item = GET_ITEM(dialog_3d, 1, counter_menu_item);
+                          auto y_item = GET_ITEM(dialog_3d, 2, counter_menu_item);
+                          auto z_item = GET_ITEM(dialog_3d, 3, counter_menu_item);
+                          x_item->value(0);
+                          y_item->value(0);
+                          z_item->value(0);
+                        }
+                        lcd_main.openDialog(dialog_3d);
+                        return DIALOG_DISPOSE;
+  });
+  lcd_main.openDialog(dialog);
 }
 
 void initKeypad();
