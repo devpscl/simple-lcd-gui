@@ -12,7 +12,7 @@ const char* lcdgui::OptionList::option(const uint8_t &index) {
 }
 
 const char* OptionList::option(const uint8_t &index) const {
-  return { arr_[index] };
+  return  arr_[index] ;
 }
 
 uint8_t lcdgui::OptionList::count() const {
