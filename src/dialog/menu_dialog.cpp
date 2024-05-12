@@ -3,30 +3,10 @@
 using namespace lcdgui;
 
 void MenuDialog::render(lcd_native_type lcd, LcdGuiService& service) {
-  if(item_count_ == 0) {
-    return;
-  }
   const DisplayInfo& display_info = service.displayInfo();
-  const uint8_t max_len = display_info.columns - 2;
   const uint8_t& rows = display_info.rows;
-  uint8_t row = 0;
-  lcd->clear();
-  for(size_t idx = cursor_offset; idx < cursor_offset + rows; idx++) {
-    if(idx >= item_count_) {
-      break;
-    }
-    LcdBuffer item_buffer;
-    menu_items_[idx]->build(item_buffer, max_len);
-    item_buffer.resize(max_len);
-
-    LcdBuffer line_buffer;
-    line_buffer << (item_cursor_ == idx ? LCD_CHAR_ARROW_RIGHT : LCD_CHAR_SPACE);
-    line_buffer << item_buffer;
-    line_buffer << ((row == 0 && cursor_offset > 0) ? LCD_CHAR_ARROW_UP :
-            (row == rows - 1 && idx < item_count_ - 1 ? LCD_CHAR_ARROW_DOWN : LCD_CHAR_SPACE));
-    lcd->setCursor(0, row);
-    lcd->print(line_buffer.str());
-    row++;
+  for(uint8_t row = 0; row < rows; row++) {
+    renderRow(row);
   }
 }
 
@@ -35,8 +15,8 @@ void MenuDialog::input(const uint8_t &input, LcdGuiService& service) {
     return;
   }
   const uint8_t& rows = service.displayInfo().rows;
-  const uint8_t& first_row = cursor_offset;
-  const uint8_t& last_row = cursor_offset + rows - 1;
+  const uint8_t& first_row = cursor_offset_;
+  const uint8_t& last_row = cursor_offset_ + rows - 1;
   if(itemAt(item_cursor_)->input(input, this)) {
     return;
   }
@@ -45,7 +25,7 @@ void MenuDialog::input(const uint8_t &input, LcdGuiService& service) {
   }
   if(input == LCD_INPUT_UP && item_cursor_ > 0) {
     if(first_row == item_cursor_) {
-      cursor_offset--;
+      cursor_offset_--;
     }
     item_cursor_--;
     updateDisplay();
@@ -53,7 +33,7 @@ void MenuDialog::input(const uint8_t &input, LcdGuiService& service) {
   }
   if(input == LCD_INPUT_DOWN && item_cursor_ < item_count_ - 1) {
     if(last_row == item_cursor_) {
-      cursor_offset++;
+      cursor_offset_++;
     }
     item_cursor_++;
     updateDisplay();
@@ -72,6 +52,60 @@ MenuDialog::~MenuDialog() {
 MenuDialog::MenuDialog(MenuItem** menu_items, const size_t &count) {
   menu_items_ = menu_items;
   item_count_ = count;
+}
+
+uint8_t MenuDialog::rowOf(const size_t& index) {
+  if(lcd_gui_service == nullptr) {
+    return - 1;
+  }
+  const DisplayInfo& display_info = lcd_gui_service->displayInfo();
+  if(index < cursor_offset_ || index > (cursor_offset_ + display_info.rows)) {
+    return -1;
+  }
+  return index - cursor_offset_;
+}
+
+size_t MenuDialog::indexOf(menu_item item) {
+  for(size_t idx = 0; idx < item_count_; idx++) {
+    if(menu_items_[idx] == item) {
+      return idx;
+    }
+  }
+  return -1;
+}
+
+void MenuDialog::renderRow(uint8_t row) {
+  if(lcd_gui_service == nullptr) {
+    return;
+  }
+  const DisplayInfo& display_info = lcd_gui_service->displayInfo();
+  const uint8_t& cols = display_info.columns;
+  const uint8_t& rows = display_info.rows;
+  const uint8_t& max_len = display_info.columns - 2;
+  size_t item_index = cursor_offset_ + row;
+  LcdBuffer line_buffer;
+  if(item_index >= item_count_) {
+    line_buffer.space(cols);
+  } else {
+    LcdBuffer item_buffer;
+    menu_items_[item_index]->build(item_buffer, max_len);
+    item_buffer.resize(max_len);
+
+    line_buffer << (item_cursor_ == item_index ? LCD_CHAR_ARROW_RIGHT : LCD_CHAR_SPACE);
+    line_buffer << item_buffer;
+    line_buffer << ((row == 0 && cursor_offset_ > 0) ? LCD_CHAR_ARROW_UP :
+                    (row == rows - 1 && item_index < item_count_ - 1 ? LCD_CHAR_ARROW_DOWN : LCD_CHAR_SPACE));
+  }
+  lcd_gui_service->nativeLcd()->setCursor(0, row);
+  lcd_gui_service->nativeLcd()->print(line_buffer.str());
+}
+
+void MenuDialog::renderItem(const size_t& index) {
+  renderRow(rowOf(index));
+}
+
+void MenuDialog::renderItem(menu_item item) {
+  renderItem(indexOf(item));
 }
 
 void MenuDialog::inputEvent(input_event_t event) {

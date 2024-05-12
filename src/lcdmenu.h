@@ -193,7 +193,7 @@ class MenuDialog : public GuiDialog {
   MenuItem** menu_items_ = nullptr;
   size_t item_count_ = 0;
   size_t item_cursor_ = 0;
-  size_t cursor_offset = 0;
+  size_t cursor_offset_ = 0;
   input_event_t input_event_ = nullptr;
 
  protected:
@@ -206,6 +206,16 @@ class MenuDialog : public GuiDialog {
   ~MenuDialog() override;
 
   MenuDialog(MenuItem** menu_items, const size_t &count);
+
+  uint8_t rowOf(const size_t& index);
+
+  size_t indexOf(menu_item item);
+
+  void renderRow(uint8_t row);
+
+  void renderItem(const size_t& index);
+
+  void renderItem(menu_item item);
 
   void inputEvent(input_event_t event);
 

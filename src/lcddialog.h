@@ -11,13 +11,14 @@ namespace lcdgui {
 class GuiDialog {
 
  private:
-  LcdGuiService* service_ = nullptr;
 
   void setLcdService(LcdGuiService* service);
 
   friend class LcdGuiService;
 
  protected:
+  LcdGuiService* lcd_gui_service = nullptr;
+
   virtual void render(lcd_native_type lcd, LcdGuiService& service);
 
   virtual void input(const uint8_t &input, LcdGuiService& service);

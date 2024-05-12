@@ -3,7 +3,7 @@
 using namespace lcdgui;
 
 void GuiDialog::setLcdService(LcdGuiService *service) {
-  service_ = service;
+  lcd_gui_service = service;
 }
 
 void GuiDialog::render(lcd_native_type lcd, LcdGuiService &service) {
@@ -21,19 +21,19 @@ gui_dialog GuiDialog::clone() {
 }
 
 void GuiDialog::close() {
-  if(service_ != nullptr) {
-    service_->closeDialog();
+  if(lcd_gui_service != nullptr) {
+    lcd_gui_service->closeDialog();
   }
 }
 
 void GuiDialog::dispose() {
-  if(service_ != nullptr) {
-    service_->disposeDialog();
+  if(lcd_gui_service != nullptr) {
+    lcd_gui_service->disposeDialog();
   }
 }
 
 void GuiDialog::updateDisplay() {
-  if(service_ != nullptr) {
-    service_->updateDisplay();
+  if(lcd_gui_service != nullptr) {
+    lcd_gui_service->updateDisplay();
   }
 }
