@@ -197,9 +197,9 @@ class MenuDialog : public GuiDialog {
   input_event_t input_event_ = nullptr;
 
  protected:
-  void render(lcd_native_type lcd, LcdGuiService& service) override;
+  void render(LiquidCrystalGui& lcg) override;
 
-  void input(const uint8_t &input, LcdGuiService& service) override;
+  void input(LiquidCrystalGui& lcg, const uint8_t &input) override;
 
  public:
 

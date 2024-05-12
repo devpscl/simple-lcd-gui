@@ -12,18 +12,18 @@ class GuiDialog {
 
  private:
 
-  void setLcdService(LcdGuiService* service);
+  void setInstance(LiquidCrystalGui* lcg);
 
-  friend class LcdGuiService;
+  friend class LiquidCrystalGui;
 
  protected:
-  LcdGuiService* lcd_gui_service = nullptr;
+  LiquidCrystalGui* lcg_instance = nullptr;
 
-  virtual void render(lcd_native_type lcd, LcdGuiService& service);
+  virtual void render(LiquidCrystalGui& lcg);
 
-  virtual void input(const uint8_t &input, LcdGuiService& service);
+  virtual void input(LiquidCrystalGui& lcg, const uint8_t &input);
 
-  friend class LcdGuiService;
+  friend class LiquidCrystalGui;
 
  public:
 
@@ -50,9 +50,9 @@ class ResultDialog : public GuiDialog {
   uint8_t focusedOption() const;
 
  protected:
-  void render(lcd_native_type lcd, LcdGuiService& service) override;
+  void render(LiquidCrystalGui& lcg) override;
 
-  void input(const uint8_t &input, LcdGuiService& service) override;
+  void input(LiquidCrystalGui& lcg, const uint8_t &input) override;
 
  public:
 

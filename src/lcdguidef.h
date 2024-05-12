@@ -44,7 +44,7 @@ typedef LiquidCrystal_I2C* lcd_native_type;
 #define LCD_CHAR_ARROW_DOWN     '\u0002'
 #define LCD_CHAR_ARROW_RIGHT    '\u0003'
 
-class LcdGuiService;
+class LiquidCrystalGui;
 
 class GuiDialog;
 class MenuDialog;

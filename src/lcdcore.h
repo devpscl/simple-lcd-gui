@@ -65,24 +65,24 @@ class LcdBuffer {
 
 };
 
-class LcdGuiService {
+class LiquidCrystalGui {
   gui_dialog current_dialog_ = nullptr;
   lcd_native_type native_type_ = nullptr;
   DisplayInfo* display_info_;
 
  public:
-  LcdGuiService(lcd_native_type native_type, const uint8_t& columns,
+  LiquidCrystalGui(lcd_native_type native_type, const uint8_t& columns,
   const uint8_t& rows, const uint8_t& char_size = 0x00);
 
 #if defined(LCD_DEFAULT_)
-  LcdGuiService(uint8_t rs, uint8_t en, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7,
+  LiquidCrystalGui(uint8_t rs, uint8_t en, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7,
   const uint8_t& columns, const uint8_t& rows, const uint8_t& char_size = 0x00);
 #elif defined(LCD_I2C_)
-  LcdGuiService(uint8_t lcd_addr, const uint8_t& columns, const uint8_t& rows,
+  LiquidCrystalGui(uint8_t lcd_addr, const uint8_t& columns, const uint8_t& rows,
              const uint8_t& char_size = 0x00);
 #endif
 
-  ~LcdGuiService();
+  ~LiquidCrystalGui();
 
   void begin(bool initialize_lcd = true);
 
@@ -106,6 +106,16 @@ class LcdGuiService {
   T currentDialog() {
     return reinterpret_cast<T>(current_dialog_);
   }
+
+  void cursor(uint8_t col, uint8_t row);
+
+  void print(const String& out);
+
+  void clear();
+
+  uint8_t columns();
+
+  uint8_t rows();
 
 };
 

@@ -3,7 +3,7 @@
 
 using namespace lcdgui;
 
-LcdGuiService::LcdGuiService(lcd_native_type native_type,
+LiquidCrystalGui::LiquidCrystalGui(lcd_native_type native_type,
                              const uint8_t &columns,
                              const uint8_t &rows,
                              const uint8_t &char_size) {
@@ -12,7 +12,7 @@ LcdGuiService::LcdGuiService(lcd_native_type native_type,
 
 }
 #if defined(LCD_DEFAULT_)
-LcdGuiService::LcdGuiService(uint8_t rs,
+LiquidCrystalGui::LiquidCrystalGui(uint8_t rs,
                              uint8_t en,
                              uint8_t d4,
                              uint8_t d5,
@@ -25,18 +25,18 @@ LcdGuiService::LcdGuiService(uint8_t rs,
   display_info_ = new DisplayInfo{columns, rows, char_size};
 }
 #elif defined(LCD_I2C_)
-LcdGuiService::LcdGuiService(uint8_t lcd_addr, const uint8_t& columns, const uint8_t& rows,
+LiquidCrystalGui::LiquidCrystalGui(uint8_t lcd_addr, const uint8_t& columns, const uint8_t& rows,
              const uint8_t& char_size) {
   native_type_ = new LiquidCrystal_I2C(lcd_addr, columns, rows);
   display_info_ = new DisplayInfo{columns, rows, char_size};
 }
 #endif
 
-LcdGuiService::~LcdGuiService() {
+LiquidCrystalGui::~LiquidCrystalGui() {
   delete display_info_;
 }
 
-void LcdGuiService::begin(bool initialize_lcd) {
+void LiquidCrystalGui::begin(bool initialize_lcd) {
   if(initialize_lcd) {
 #if defined(LCD_DEFAULT_)
     native_type_->begin(display_info_->columns,
@@ -55,47 +55,67 @@ void LcdGuiService::begin(bool initialize_lcd) {
   native_type_->createChar(LCD_CHAR_ARROW_RIGHT, arrow_right_data);
 }
 
-gui_dialog LcdGuiService::currentDialog() {
+gui_dialog LiquidCrystalGui::currentDialog() {
   return current_dialog_;
 }
 
-void LcdGuiService::openDialog(gui_dialog dialog) {
+void LiquidCrystalGui::openDialog(gui_dialog dialog) {
   current_dialog_ = dialog;
   if(current_dialog_ != nullptr) {
-    current_dialog_->setLcdService(this);
+    current_dialog_->setInstance(this);
   }
   updateDisplay();
 }
 
-void LcdGuiService::closeDialog() {
+void LiquidCrystalGui::closeDialog() {
   current_dialog_ = nullptr;
   native_type_->clear();
 }
 
-void LcdGuiService::disposeDialog() {
+void LiquidCrystalGui::disposeDialog() {
   delete current_dialog_;
   current_dialog_ = nullptr;
   native_type_->clear();
 }
 
 
-void LcdGuiService::dispatchInput(const uint8_t &input) {
+void LiquidCrystalGui::dispatchInput(const uint8_t &input) {
   if(current_dialog_ != nullptr) {
-    current_dialog_->input(input, *this);
+    current_dialog_->input(*this, input);
   }
 }
 
-void LcdGuiService::updateDisplay() {
+void LiquidCrystalGui::updateDisplay() {
   if(current_dialog_ != nullptr) {
-    current_dialog_->render(native_type_, *this);
+    current_dialog_->render(*this);
   }
 }
 
-lcd_native_type LcdGuiService::nativeLcd() const {
+lcd_native_type LiquidCrystalGui::nativeLcd() const {
   return native_type_;
 }
 
-DisplayInfo LcdGuiService::displayInfo() const {
+DisplayInfo LiquidCrystalGui::displayInfo() const {
   return *display_info_;
+}
+
+void LiquidCrystalGui::cursor(uint8_t col, uint8_t row) {
+  native_type_->setCursor(col, row);
+}
+
+void LiquidCrystalGui::print(const String &out) {
+  native_type_->print(out);
+}
+
+void LiquidCrystalGui::clear() {
+  native_type_->clear();
+}
+
+uint8_t LiquidCrystalGui::columns() {
+  return display_info_->columns;
+}
+
+uint8_t LiquidCrystalGui::rows() {
+  return display_info_->rows;
 }
 

@@ -2,15 +2,15 @@
 
 using namespace lcdgui;
 
-void GuiDialog::setLcdService(LcdGuiService *service) {
-  lcd_gui_service = service;
+void GuiDialog::setInstance(LiquidCrystalGui* instance) {
+  lcg_instance = instance;
 }
 
-void GuiDialog::render(lcd_native_type lcd, LcdGuiService &service) {
+void GuiDialog::render(LiquidCrystalGui& lcg) {
   //do nothing
 }
 
-void GuiDialog::input(const uint8_t &input, LcdGuiService &service) {
+void GuiDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
   //do nothing
 }
 
@@ -21,19 +21,19 @@ gui_dialog GuiDialog::clone() {
 }
 
 void GuiDialog::close() {
-  if(lcd_gui_service != nullptr) {
-    lcd_gui_service->closeDialog();
+  if(lcg_instance != nullptr) {
+    lcg_instance->closeDialog();
   }
 }
 
 void GuiDialog::dispose() {
-  if(lcd_gui_service != nullptr) {
-    lcd_gui_service->disposeDialog();
+  if(lcg_instance != nullptr) {
+    lcg_instance->disposeDialog();
   }
 }
 
 void GuiDialog::updateDisplay() {
-  if(lcd_gui_service != nullptr) {
-    lcd_gui_service->updateDisplay();
+  if(lcg_instance != nullptr) {
+    lcg_instance->updateDisplay();
   }
 }

@@ -2,19 +2,19 @@
 
 using namespace lcdgui;
 
-void MenuDialog::render(lcd_native_type lcd, LcdGuiService& service) {
-  const DisplayInfo& display_info = service.displayInfo();
+void MenuDialog::render(LiquidCrystalGui& lcg) {
+  const DisplayInfo& display_info = lcg.displayInfo();
   const uint8_t& rows = display_info.rows;
   for(uint8_t row = 0; row < rows; row++) {
     renderRow(row);
   }
 }
 
-void MenuDialog::input(const uint8_t &input, LcdGuiService& service) {
+void MenuDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
   if(item_count_ == 0) {
     return;
   }
-  const uint8_t& rows = service.displayInfo().rows;
+  const uint8_t& rows = lcg.displayInfo().rows;
   const uint8_t& first_row = cursor_offset_;
   const uint8_t& last_row = cursor_offset_ + rows - 1;
   if(itemAt(item_cursor_)->input(input, this)) {
@@ -55,10 +55,10 @@ MenuDialog::MenuDialog(MenuItem** menu_items, const size_t &count) {
 }
 
 uint8_t MenuDialog::rowOf(const size_t& index) {
-  if(lcd_gui_service == nullptr) {
+  if(lcg_instance == nullptr) {
     return - 1;
   }
-  const DisplayInfo& display_info = lcd_gui_service->displayInfo();
+  const DisplayInfo& display_info = lcg_instance->displayInfo();
   if(index < cursor_offset_ || index > (cursor_offset_ + display_info.rows)) {
     return -1;
   }
@@ -75,13 +75,12 @@ size_t MenuDialog::indexOf(menu_item item) {
 }
 
 void MenuDialog::renderRow(uint8_t row) {
-  if(lcd_gui_service == nullptr) {
+  if(lcg_instance == nullptr) {
     return;
   }
-  const DisplayInfo& display_info = lcd_gui_service->displayInfo();
-  const uint8_t& cols = display_info.columns;
-  const uint8_t& rows = display_info.rows;
-  const uint8_t& max_len = display_info.columns - 2;
+  const uint8_t& cols = lcg_instance->columns();
+  const uint8_t& rows = lcg_instance->rows();
+  const uint8_t& max_len = cols - 2;
   size_t item_index = cursor_offset_ + row;
   LcdBuffer line_buffer;
   if(item_index >= item_count_) {
@@ -96,8 +95,8 @@ void MenuDialog::renderRow(uint8_t row) {
     line_buffer << ((row == 0 && cursor_offset_ > 0) ? LCD_CHAR_ARROW_UP :
                     (row == rows - 1 && item_index < item_count_ - 1 ? LCD_CHAR_ARROW_DOWN : LCD_CHAR_SPACE));
   }
-  lcd_gui_service->nativeLcd()->setCursor(0, row);
-  lcd_gui_service->nativeLcd()->print(line_buffer.str());
+  lcg_instance->cursor(0, row);
+  lcg_instance->print(line_buffer.str());
 }
 
 void MenuDialog::renderItem(const size_t& index) {

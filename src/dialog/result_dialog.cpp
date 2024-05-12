@@ -2,7 +2,7 @@
 
 using namespace lcdgui;
 
-void ResultDialog::render(lcd_native_type lcd, LcdGuiService &service) {
+void ResultDialog::render(LiquidCrystalGui& lcg) {
   LcdBuffer buffer;
   uint8_t c_pos = 0;
   if(options_ & RESULT_OPTION_OK) {
@@ -34,15 +34,15 @@ void ResultDialog::render(lcd_native_type lcd, LcdGuiService &service) {
       buffer << " NO ";
     }
   }
-  buffer.center(service.displayInfo().columns);
-  lcd->clear();
-  lcd->setCursor(0, 0);
-  lcd->print(text_);
-  lcd->setCursor(0, 1);
-  lcd->print(buffer.str());
+  buffer.center(lcg.columns());
+  lcg.clear();
+  lcg.cursor(0, 0);
+  lcg.print(text_);
+  lcg.cursor(0, 1);
+  lcg.print(buffer.str());
 }
 
-void ResultDialog::input(const uint8_t &input, LcdGuiService &service) {
+void ResultDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
   if(input == LCD_INPUT_LEFT && option_cursor_ > 0) {
     option_cursor_--;
     updateDisplay();
