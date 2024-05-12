@@ -21,14 +21,18 @@ gui_dialog GuiDialog::clone() {
 }
 
 void GuiDialog::close() {
-  if(lcg_instance != nullptr) {
+  if(lcg_instance != nullptr && lcg_instance->currentDialog() == this) {
     lcg_instance->closeDialog();
   }
 }
 
 void GuiDialog::dispose() {
   if(lcg_instance != nullptr) {
-    lcg_instance->disposeDialog();
+    if(lcg_instance->currentDialog() == this) {
+      lcg_instance->disposeDialog();
+      return;
+    }
+    delete this;
   }
 }
 
