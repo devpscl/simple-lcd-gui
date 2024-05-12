@@ -27,7 +27,7 @@ LcdGuiService::LcdGuiService(uint8_t rs,
 #elif defined(LCD_I2C_)
 LcdGuiService::LcdGuiService(uint8_t lcd_addr, const uint8_t& columns, const uint8_t& rows,
              const uint8_t& char_size) {
-  native_type_ = new LiquidCrystal_I2C(lcd_addr, cols, rows, charsize);
+  native_type_ = new LiquidCrystal_I2C(lcd_addr, columns, rows);
   display_info_ = new DisplayInfo{columns, rows, char_size};
 }
 #endif
@@ -43,7 +43,8 @@ void LcdGuiService::begin(bool initialize_lcd) {
                         display_info_->rows,
                         display_info_->char_size);
 #elif defined(LCD_I2C_)
-    native_type_->begin();
+    native_type_->init();
+    native_type_->backlight();
 #endif
   }
   uint8_t arrow_up_data[] = LCD_DATA_ARROW_UP;
