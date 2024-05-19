@@ -101,6 +101,44 @@ class ResultDialog : public GuiDialog {
 
 };
 
+class InputDialog : public GuiDialog {
+  String title_;
+  String buffer_;
+  input_event_t input_event_ = nullptr;
+
+ protected:
+  void render(LiquidCrystalGui& lcg) override;
+
+  void input(LiquidCrystalGui& lcg, const uint8_t &input) override;
+
+  void enable(LiquidCrystalGui& lcg) override;
+
+  void disable(LiquidCrystalGui& lcg) override;
+
+ public:
+
+  InputDialog(gui_dialog parent, const String& title, input_event_t input_event = nullptr, const String& input = "");
+
+  explicit InputDialog(const String& title, input_event_t input_event = nullptr, const String& input = "");
+
+  String title();
+
+  String& input();
+
+  void put(const char* cstr);
+
+  void put(char ch);
+
+  void put(const String& str);
+
+  void removeChars(uint8_t count = 1);
+
+  gui_dialog clone() override;
+
+  DialogType type() const override;
+
+};
+
 }
 
 #endif //SIMPLE_LCD_GUI_SRC_LCDDIALOG_H_

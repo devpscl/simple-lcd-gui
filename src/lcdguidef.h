@@ -30,8 +30,8 @@ namespace lcdgui {
 #define LCD_INPUT_OK              LCD_INPUT_NEXT
 #define LCD_INPUT_CANCEL          LCD_INPUT_BACK
 
-#define EVENT_SEND                0
-#define EVENT_CANCELLED           1
+#define EVENT_SEND                false
+#define EVENT_CANCELLED           true
 
 #if defined(LCD_DEFAULT_)
 typedef LiquidCrystal* lcd_native_type;
@@ -53,10 +53,12 @@ class LiquidCrystalGui;
 class GuiDialog;
 class MenuDialog;
 class ResultDialog;
+class InputDialog;
 
 typedef GuiDialog* gui_dialog;
 typedef MenuDialog* menu_dialog;
 typedef ResultDialog* result_dialog;
+typedef InputDialog* input_dialog;
 
 typedef void (*action_event_t)();
 
@@ -73,7 +75,6 @@ struct DisplayInfo {
   const uint8_t rows;
   const uint8_t char_size;
 };
-
 
 #define LCD_DATA_ARROW_UP { \
 0x04, \
