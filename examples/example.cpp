@@ -39,7 +39,6 @@ void eventChangeTitleLangOption(uint8_t option);
 void event3dChangeStepValue(uint8_t option);
 
 void eventOpen3dDialog();
-bool eventInput3dDialog(uint8_t input);
 
 void event3dChangeXValue(int16_t value, int8_t offset);
 void event3dChangeYValue(int16_t value, int8_t offset);
@@ -110,15 +109,7 @@ void event3dChangeStepValue(uint8_t option) {
 
 void eventOpen3dDialog() {
   dialog_3d->cursor(0);
-  lcd_main.openDialog(dialog_3d);
-}
-
-bool eventInput3dDialog(uint8_t input) {
-  if(input == LCD_INPUT_BACK) {
-    lcd_main.openDialog(dialog_main);
-    return EVENT_CANCELLED;
-  }
-  return EVENT_SEND;
+  dialog_main->openChild(dialog_3d);
 }
 
 void event3dChangeXValue(int16_t value, int8_t offset) {
@@ -153,10 +144,9 @@ void event3dReset() {
                           y_item->value(0);
                           z_item->value(0);
                         }
-                        lcd_main.openDialog(dialog_3d);
                         return DIALOG_DISPOSE;
   });
-  lcd_main.openDialog(dialog);
+  dialog_3d->openChild(dialog);
 }
 
 void initKeypad();
@@ -165,8 +155,6 @@ void setup() {
   initKeypad();
   lcd_main.begin(true);
   lcd_main.openDialog(dialog_main);
-
-  dialog_3d->inputEvent(eventInput3dDialog);
 }
 
 ////////////////////////////////////
