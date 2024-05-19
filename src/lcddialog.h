@@ -11,9 +11,17 @@ namespace lcdgui {
 /**Only input*/
 #define RESULT_OPTION_CANCEL  0x8
 
+enum class DialogType {
+  MenuDialog,
+  ResultDialog,
+  InputDialog,
+  Custom
+};
+
 class GuiDialog {
 
  private:
+  gui_dialog parent_dialog_;
 
   void setInstance(LiquidCrystalGui* lcg);
 
@@ -34,15 +42,29 @@ class GuiDialog {
 
  public:
 
+  explicit GuiDialog(gui_dialog parent_dialog);
+
+  GuiDialog();
+
   virtual ~GuiDialog();
 
   virtual gui_dialog clone();
 
+  gui_dialog parentDialog();
+
+  void parentDialog(gui_dialog parent_dialog);
+
   void close();
+
+  void closeAll();
 
   void dispose();
 
   void updateDisplay();
+
+  bool isOpened();
+
+  virtual DialogType type() const;
 
 };
 
@@ -65,6 +87,8 @@ class ResultDialog : public GuiDialog {
 
  public:
 
+  ResultDialog(gui_dialog parent, const String& text, uint8_t options, result_choose_event_t choose_event = nullptr);
+
   ResultDialog(const String& text, uint8_t options, result_choose_event_t choose_event = nullptr);
 
   result_choose_event_t chooseEvent();
@@ -72,6 +96,8 @@ class ResultDialog : public GuiDialog {
   uint8_t options() const;
 
   gui_dialog clone() override;
+
+  DialogType type() const override;
 
 };
 

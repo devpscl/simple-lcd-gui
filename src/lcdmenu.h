@@ -4,7 +4,8 @@
 
 namespace lcdgui {
 
-#define MENU_FLAG_CYLINDER_SCROLL 0x1
+#define MENU_FLAG_CYLINDER_SCROLL     0x1
+#define MENU_FLAG_DISALLOW_MUTLIMENU  0x2
 
 
 class MenuItem;
@@ -208,10 +209,11 @@ class MenuDialog : public GuiDialog {
   void enable(LiquidCrystalGui &lcg) override;
 
  public:
-
-  ~MenuDialog() override;
+  MenuDialog(gui_dialog parent, MenuItem** menu_items, const size_t &count);
 
   MenuDialog(MenuItem** menu_items, const size_t &count);
+
+  ~MenuDialog() override;
 
   uint8_t flags() const;
 
@@ -243,6 +245,10 @@ class MenuDialog : public GuiDialog {
   T itemAt(const size_t &index) {
     return reinterpret_cast<T>(itemAt(index));
   }
+
+  void openChild(gui_dialog dialog);
+
+  DialogType type() const override;
 
 };
 

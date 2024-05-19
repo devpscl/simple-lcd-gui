@@ -53,6 +53,13 @@ void MenuDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
     updateDisplay();
     return;
   }
+  if(flags_ & MENU_FLAG_DISALLOW_MUTLIMENU) {
+    return;
+  }
+  gui_dialog parent_gui = parentDialog();
+  if(input == LCD_INPUT_BACK && parent_gui != nullptr) {
+    close();
+  }
 }
 
 void MenuDialog::enable(LiquidCrystalGui &lcg) {
@@ -66,7 +73,11 @@ MenuDialog::~MenuDialog() {
   delete[] menu_items_;
 }
 
-MenuDialog::MenuDialog(MenuItem** menu_items, const size_t &count) {
+MenuDialog::MenuDialog(MenuItem** menu_items,
+                       const size_t &count) : MenuDialog(nullptr, menu_items, count) {}
+
+MenuDialog::MenuDialog(gui_dialog parent,
+                       MenuItem **menu_items, const size_t &count) : GuiDialog(parent) {
   menu_items_ = menu_items;
   item_count_ = count;
 }
@@ -160,4 +171,15 @@ size_t MenuDialog::itemCount() const {
 
 gui_dialog MenuDialog::clone() {
   return new MenuDialog(menu_items_, item_count_);
+}
+
+void MenuDialog::openChild(gui_dialog dialog) {
+  if(lcg_instance != nullptr) {
+    dialog->parentDialog(this);
+    lcg_instance->openDialog(dialog);
+  }
+}
+
+DialogType MenuDialog::type() const {
+  return DialogType::MenuDialog;
 }

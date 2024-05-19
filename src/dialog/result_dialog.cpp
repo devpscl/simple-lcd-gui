@@ -80,6 +80,9 @@ ResultDialog::ResultDialog(gui_dialog parent, const String &text, uint8_t option
   choose_event_ = choose_event;
 }
 
+ResultDialog::ResultDialog(const String& text, uint8_t options, result_choose_event_t choose_event)
+        : ResultDialog::ResultDialog(nullptr, text, options, choose_event) {}
+
 result_choose_event_t ResultDialog::chooseEvent() {
   return choose_event_;
 }
@@ -118,5 +121,9 @@ uint8_t ResultDialog::focusedOption() const {
     }
   }
   return 0;
+}
+
+DialogType ResultDialog::type() const {
+  return DialogType::ResultDialog;
 }
 
