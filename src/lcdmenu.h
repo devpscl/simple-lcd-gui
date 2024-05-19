@@ -205,6 +205,8 @@ class MenuDialog : public GuiDialog {
 
   void input(LiquidCrystalGui& lcg, const uint8_t &input) override;
 
+  void enable(LiquidCrystalGui &lcg) override;
+
  public:
 
   ~MenuDialog() override;

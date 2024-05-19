@@ -26,6 +26,10 @@ class GuiDialog {
 
   virtual void input(LiquidCrystalGui& lcg, const uint8_t &input);
 
+  virtual void enable(LiquidCrystalGui& lcg);
+
+  virtual void disable(LiquidCrystalGui& lcg);
+
   friend class LiquidCrystalGui;
 
  public:
@@ -56,6 +60,8 @@ class ResultDialog : public GuiDialog {
   void render(LiquidCrystalGui& lcg) override;
 
   void input(LiquidCrystalGui& lcg, const uint8_t &input) override;
+
+  void enable(LiquidCrystalGui& lcg) override;
 
  public:
 

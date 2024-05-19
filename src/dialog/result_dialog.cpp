@@ -69,7 +69,12 @@ void ResultDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
   }
 }
 
-ResultDialog::ResultDialog(const String& text, uint8_t options, result_choose_event_t choose_event) {
+void ResultDialog::enable(LiquidCrystalGui &lcg) {
+  lcg.flags(0);
+}
+
+ResultDialog::ResultDialog(gui_dialog parent, const String &text, uint8_t options,
+                           result_choose_event_t choose_event) : GuiDialog(parent) {
   text_ = text;
   options_ = options;
   choose_event_ = choose_event;

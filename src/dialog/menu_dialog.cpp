@@ -55,6 +55,9 @@ void MenuDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
   }
 }
 
+void MenuDialog::enable(LiquidCrystalGui &lcg) {
+  lcg.flags(0);
+}
 
 MenuDialog::~MenuDialog() {
   for(size_t idx = 0; idx < item_count_; idx++) {

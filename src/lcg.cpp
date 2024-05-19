@@ -60,19 +60,29 @@ gui_dialog LiquidCrystalGui::currentDialog() {
 }
 
 void LiquidCrystalGui::openDialog(gui_dialog dialog) {
+  if(current_dialog_ != nullptr) {
+    current_dialog_->disable(*this);
+  }
   current_dialog_ = dialog;
   if(current_dialog_ != nullptr) {
     current_dialog_->setInstance(this);
   }
+  current_dialog_->enable(*this);
   updateDisplay();
 }
 
 void LiquidCrystalGui::closeDialog() {
+  if(current_dialog_ != nullptr) {
+    current_dialog_->disable(*this);
+  }
   current_dialog_ = nullptr;
   native_type_->clear();
 }
 
 void LiquidCrystalGui::disposeDialog() {
+  if(current_dialog_ != nullptr) {
+    current_dialog_->disable(*this);
+  }
   delete current_dialog_;
   current_dialog_ = nullptr;
   native_type_->clear();
