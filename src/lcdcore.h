@@ -84,6 +84,8 @@ class LiquidCrystalGui {
 #elif defined(LCD_I2C_)
   LiquidCrystalGui(uint8_t lcd_addr, const uint8_t& columns, const uint8_t& rows,
              const uint8_t& char_size = 0x00);
+#elif defined(LCD_U8G2_)
+  LiquidCrystalGui(U8G2& u8g2);
 #endif
 
   ~LiquidCrystalGui();

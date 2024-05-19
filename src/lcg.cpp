@@ -30,6 +30,13 @@ LiquidCrystalGui::LiquidCrystalGui(uint8_t lcd_addr, const uint8_t& columns, con
   native_type_ = new LiquidCrystal_I2C(lcd_addr, columns, rows);
   display_info_ = new DisplayInfo{columns, rows, char_size};
 }
+#elif defined(LCD_U8G2_)
+
+LiquidCrystalGui::LiquidCrystalGui(U8G2 &u8g2) {
+  native_type_ = new LiquidCrystalU8GLIB2(u8g2, CHAR_SIZE_6x9);
+  display_info_ = new DisplayInfo{native_type_->cols(), native_type_->rows(), 0};
+}
+
 #endif
 
 LiquidCrystalGui::~LiquidCrystalGui() {
@@ -47,12 +54,24 @@ void LiquidCrystalGui::begin(bool initialize_lcd) {
     native_type_->backlight();
 #endif
   }
-  uint8_t arrow_up_data[] = LCD_DATA_ARROW_UP;
-  uint8_t arrow_down_data[] = LCD_DATA_ARROW_DOWN;
-  uint8_t arrow_right_data[] = LCD_DATA_ARROW_RIGHT;
+#if defined(LCD_U8G2_)
+  auto* arrow_up_data = new uint8_t[9]LCD_DATA_ARROW_UP_6x9;
+  auto* arrow_down_data = new uint8_t[9]LCD_DATA_ARROW_DOWN_6x9;
+  auto* arrow_right_data = new uint8_t[9]LCD_DATA_ARROW_RIGHT_6x9;
+  auto* map = new CharMap(3);
+  map->put(LCD_CHAR_ARROW_UP, arrow_up_data);
+  map->put(LCD_CHAR_ARROW_DOWN, arrow_down_data);
+  map->put(LCD_CHAR_ARROW_RIGHT, arrow_right_data);
+  native_type_->setCharMap(map);
+#else
+  uint8_t arrow_up_data[] = LCD_DATA_ARROW_UP_5x8;
+  uint8_t arrow_down_data[] = LCD_DATA_ARROW_DOWN_5x8;
+  uint8_t arrow_right_data[] = LCD_DATA_ARROW_RIGHT_5x8;
   native_type_->createChar(LCD_CHAR_ARROW_UP, arrow_up_data);
   native_type_->createChar(LCD_CHAR_ARROW_DOWN, arrow_down_data);
   native_type_->createChar(LCD_CHAR_ARROW_RIGHT, arrow_right_data);
+
+#endif
 }
 
 gui_dialog LiquidCrystalGui::currentDialog() {
@@ -145,14 +164,22 @@ uint8_t LiquidCrystalGui::rows() {
 }
 
 void LiquidCrystalGui::showCursor(bool state) {
+#if defined(LCD_U8G2_)
+  native_type_->cursorVisible(state);
+#else
   if(state) {
     native_type_->cursor();
   } else {
     native_type_->noCursor();
   }
+#endif
+
 }
 
 void LiquidCrystalGui::flags(const uint8_t &flags) {
+#if defined(LCD_U8G2_)
+  native_type_->cursorVisible(flags & FLAG_CURSOR_VISIBLE);
+#else
   if(flags & FLAG_CURSOR_VISIBLE) {
     native_type_->cursor();
   } else {
@@ -168,5 +195,7 @@ void LiquidCrystalGui::flags(const uint8_t &flags) {
   } else {
     native_type_->noAutoscroll();
   }
+#endif
+
 }
 

@@ -7,10 +7,18 @@
 //Force to use default lcd library (LiquidCrystal.h)
 //#define LCD_OVERRIDE_DEFAULT
 //
+//Force to use U8g2lib lcd library (U8g2lib.h)
+//#define LCD_OVERRIDE_U8G2
+//
 
-#if (__has_include("LiquidCrystal_I2C.h") && (!defined(LCD_OVERRIDE_DEFAULT))) || defined(LCD_OVERRIDE_I2C)
+#if (__has_include("LiquidCrystal_I2C.h") && !defined(LCD_OVERRIDE_DEFAULT) && !defined(LCD_OVERRIDE_U8G2)) \
+|| defined(LCD_OVERRIDE_I2C)
 #define LCD_I2C_ 1
 #include <LiquidCrystal_I2C.h>
+#elif (__has_include("U8g2lib.h") && !defined(LCD_OVERRIDE_DEFAULT) && !defined(LCD_OVERRIDE_I2C)) \
+|| defined(LCD_OVERRIDE_U8GLIB)
+#define LCD_U8G2_ 1
+#include "lcdu8g2.h"
 #else
 #define LCD_DEFAULT_ 1
 #include <LiquidCrystal.h>
@@ -37,6 +45,8 @@ namespace lcdgui {
 typedef LiquidCrystal* lcd_native_type;
 #elif defined(LCD_I2C_)
 typedef LiquidCrystal_I2C* lcd_native_type;
+#elif defined(LCD_U8G2_)
+typedef LiquidCrystalU8GLIB2* lcd_native_type;
 #endif
 
 #define LCD_CHAR_SPACE          ' '
@@ -76,7 +86,7 @@ struct DisplayInfo {
   const uint8_t char_size;
 };
 
-#define LCD_DATA_ARROW_UP { \
+#define LCD_DATA_ARROW_UP_5x8 { \
 0x04, \
 0x0E, \
 0x1F, \
@@ -85,9 +95,9 @@ struct DisplayInfo {
 0x00, \
 0x00, \
 0x00  \
-}     \
+}
 
-#define LCD_DATA_ARROW_DOWN { \
+#define LCD_DATA_ARROW_DOWN_5x8 { \
 0x00, \
 0x00, \
 0x00, \
@@ -96,9 +106,9 @@ struct DisplayInfo {
 0x1F, \
 0x0E, \
 0x04  \
-}     \
+}
 
-#define LCD_DATA_ARROW_RIGHT { \
+#define LCD_DATA_ARROW_RIGHT_5x8 { \
 0x00, \
 0x04, \
 0x02, \
@@ -107,7 +117,44 @@ struct DisplayInfo {
 0x04, \
 0x00, \
 0x00  \
-}     \
+}
+
+
+#define LCD_DATA_ARROW_UP_6x9 { \
+0b000000, \
+0b001100, \
+0b011110, \
+0b011110, \
+0b111111, \
+0b000000, \
+0b000000, \
+0b000000, \
+0b000000  \
+}
+
+#define LCD_DATA_ARROW_DOWN_6x9 { \
+0b000000, \
+0b000000, \
+0b000000, \
+0b000000, \
+0b111111, \
+0b011110, \
+0b011110, \
+0b001100, \
+0b000000  \
+}
+
+#define LCD_DATA_ARROW_RIGHT_6x9 { \
+0b000000, \
+0b001000, \
+0b000100, \
+0b000010, \
+0b011111, \
+0b000010, \
+0b000100, \
+0b001000, \
+0b000000  \
+}
 
 template<typename ...Args>
 constexpr size_t vaCount(Args&&...) { return sizeof...(Args); }
