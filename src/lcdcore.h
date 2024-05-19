@@ -6,6 +6,10 @@
 
 namespace lcdgui {
 
+#define FLAG_CURSOR_VISIBLE             0x1
+#define FLAG_CURSOR_BLINKING            0x2
+#define FLAG_CURSOR_AUTO_SCROLL         0x4
+
 class LcdBuffer {
  protected:
   String buf_;
@@ -111,11 +115,21 @@ class LiquidCrystalGui {
 
   void print(const String& out);
 
+  void print(const char* cstr);
+
+  void print(const LcdBuffer& buffer);
+
+  void clearRow(const uint8_t& row);
+
   void clear();
 
   uint8_t columns();
 
   uint8_t rows();
+
+  void showCursor(bool state);
+
+  void flags(const uint8_t& flags);
 
 };
 

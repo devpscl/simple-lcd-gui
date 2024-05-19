@@ -117,6 +117,21 @@ void LiquidCrystalGui::print(const String &out) {
   native_type_->print(out);
 }
 
+void LiquidCrystalGui::print(const char *cstr) {
+  native_type_->print(cstr);
+}
+
+void LiquidCrystalGui::print(const LcdBuffer &buffer) {
+  native_type_->print(buffer.str());
+}
+
+void LiquidCrystalGui::clearRow(const uint8_t &row) {
+  LcdBuffer buf;
+  buf.space(display_info_->columns);
+  native_type_->setCursor(0, row);
+  native_type_->print(buf.str());
+}
+
 void LiquidCrystalGui::clear() {
   native_type_->clear();
 }
@@ -127,5 +142,31 @@ uint8_t LiquidCrystalGui::columns() {
 
 uint8_t LiquidCrystalGui::rows() {
   return display_info_->rows;
+}
+
+void LiquidCrystalGui::showCursor(bool state) {
+  if(state) {
+    native_type_->cursor();
+  } else {
+    native_type_->noCursor();
+  }
+}
+
+void LiquidCrystalGui::flags(const uint8_t &flags) {
+  if(flags & FLAG_CURSOR_VISIBLE) {
+    native_type_->cursor();
+  } else {
+    native_type_->noCursor();
+  }
+  if(flags & FLAG_CURSOR_BLINKING) {
+    native_type_->blink();
+  } else {
+    native_type_->noBlink();
+  }
+  if(flags & FLAG_CURSOR_AUTO_SCROLL) {
+    native_type_->autoscroll();
+  } else {
+    native_type_->noAutoscroll();
+  }
 }
 
