@@ -46,6 +46,10 @@ void eventItemAction() {
 }
 
 void eventChangeDisplayOption(uint8_t option) {
+  if(option == 0) { // "on" selected
+    lcd_main.nativeLcd()->display();
+    return;
+  }
   auto dialog = RESULT_DIALOG("Are you sure?", RESULT_OPTION_YES | RESULT_OPTION_NO, [](uint8_t o){
     if(o == RESULT_OPTION_YES) {
       lcd_main.nativeLcd()->noDisplay();
