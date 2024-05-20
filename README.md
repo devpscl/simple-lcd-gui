@@ -12,7 +12,6 @@ Simple-Lcd-Gui is a arduino library for creating user interfaces like menus on t
 ## Fully Example
 ```c++
 #include <Arduino.h>
-#include <SPI.h>
 #include <lcdgui.h>
 
 using namespace lcdgui;
