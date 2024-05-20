@@ -3,7 +3,7 @@
 #include <U8g2lib.h>
 
 #define CHAR_SIZE_5x7 CharOption{u8g2_font_6x12_tf, 5, 7, 1, 1, 0, 0}
-#define CHAR_SIZE_6x9 CharOption{u8g2_font_7x13_tf, 6, 9, 1, 1, 0, 0}
+#define CHAR_SIZE_6x11 CharOption{u8g2_font_7x13_tf, 6, 11, 1, 1, 0, 0}
 
 #define LCU8_FLAG_AUTO_FLUSH 0x1
 #define LCU8_FLAG_SHOW_CURSOR 0x2
@@ -57,6 +57,8 @@ class LiquidCrystalU8GLIB2 {
   explicit LiquidCrystalU8GLIB2(U8G2& u8g2, const CharOption& char_option = CHAR_SIZE_5x7);
 
   void setCharMap(CharMap* char_map);
+
+  U8G2& handle();
 
   uint8_t cols() const;
 

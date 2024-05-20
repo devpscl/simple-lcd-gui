@@ -1,3 +1,4 @@
+#if __has_include("U8g2lib.h")
 #include "lcdu8g2.h"
 
 #define CONVCHARX(col) (col * (char_option_.char_width + char_option_.width_space) + char_option_.col_offset)
@@ -26,6 +27,10 @@ LiquidCrystalU8GLIB2::LiquidCrystalU8GLIB2(U8G2 &u8g2, const CharOption& char_op
 
 void LiquidCrystalU8GLIB2::setCharMap(CharMap *char_map) {
   char_map_ = char_map;
+}
+
+U8G2 &LiquidCrystalU8GLIB2::handle() {
+  return u8g2_;
 }
 
 uint8_t LiquidCrystalU8GLIB2::cols() const {
@@ -147,3 +152,4 @@ uint8_t *CharMap::findReplace(char ch) {
   }
   return nullptr;
 }
+#endif

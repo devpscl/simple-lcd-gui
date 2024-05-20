@@ -33,7 +33,7 @@ LiquidCrystalGui::LiquidCrystalGui(uint8_t lcd_addr, const uint8_t& columns, con
 #elif defined(LCD_U8G2_)
 
 LiquidCrystalGui::LiquidCrystalGui(U8G2 &u8g2) {
-  native_type_ = new LiquidCrystalU8GLIB2(u8g2, CHAR_SIZE_6x9);
+  native_type_ = new LiquidCrystalU8GLIB2(u8g2, CHAR_SIZE_6x11);
   display_info_ = new DisplayInfo{native_type_->cols(), native_type_->rows(), 0};
 }
 
@@ -55,9 +55,9 @@ void LiquidCrystalGui::begin(bool initialize_lcd) {
 #endif
   }
 #if defined(LCD_U8G2_)
-  auto* arrow_up_data = new uint8_t[9]LCD_DATA_ARROW_UP_6x9;
-  auto* arrow_down_data = new uint8_t[9]LCD_DATA_ARROW_DOWN_6x9;
-  auto* arrow_right_data = new uint8_t[9]LCD_DATA_ARROW_RIGHT_6x9;
+  auto* arrow_up_data = new uint8_t[11]LCD_DATA_ARROW_UP_6x11;
+  auto* arrow_down_data = new uint8_t[11]LCD_DATA_ARROW_DOWN_6x11;
+  auto* arrow_right_data = new uint8_t[11]LCD_DATA_ARROW_RIGHT_6x11;
   auto* map = new CharMap(3);
   map->put(LCD_CHAR_ARROW_UP, arrow_up_data);
   map->put(LCD_CHAR_ARROW_DOWN, arrow_down_data);
@@ -115,6 +115,9 @@ void LiquidCrystalGui::dispatchInput(const uint8_t &input) {
 }
 
 void LiquidCrystalGui::updateDisplay() {
+#ifdef LCD_U8G2_
+  native_type_->autoFlush(true);
+#endif
   if(current_dialog_ != nullptr) {
     current_dialog_->render(*this);
   }

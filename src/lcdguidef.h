@@ -156,6 +156,48 @@ struct DisplayInfo {
 0b000000  \
 }
 
+#define LCD_DATA_ARROW_UP_6x11 { \
+0b000000, \
+0b001100, \
+0b001100, \
+0b011110, \
+0b011110, \
+0b111111, \
+0b000000, \
+0b000000, \
+0b000000, \
+0b000000, \
+0b000000 \
+}
+
+#define LCD_DATA_ARROW_DOWN_6x11 { \
+0b000000, \
+0b000000, \
+0b000000, \
+0b000000, \
+0b000000, \
+0b111111, \
+0b011110, \
+0b011110, \
+0b001100, \
+0b001100, \
+0b000000 \
+}
+
+#define LCD_DATA_ARROW_RIGHT_6x11 { \
+0b000000, \
+0b000000, \
+0b001000, \
+0b000100, \
+0b000010, \
+0b011111, \
+0b000010, \
+0b000100, \
+0b001000, \
+0b000000, \
+0b000000  \
+}
+
 template<typename ...Args>
 constexpr size_t vaCount(Args&&...) { return sizeof...(Args); }
 
