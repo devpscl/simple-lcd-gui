@@ -52,6 +52,8 @@ void LiquidCrystalGui::begin(bool initialize_lcd) {
 #elif defined(LCD_I2C_)
     native_type_->init();
     native_type_->backlight();
+#elif defined(LCD_U8G2_)
+    native_type_->begin();
 #endif
   }
 #if defined(LCD_U8G2_)

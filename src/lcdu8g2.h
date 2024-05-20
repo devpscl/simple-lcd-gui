@@ -56,6 +56,8 @@ class LiquidCrystalU8GLIB2 {
  public:
   explicit LiquidCrystalU8GLIB2(U8G2& u8g2, const CharOption& char_option = CHAR_SIZE_5x7);
 
+  void begin();
+
   void setCharMap(CharMap* char_map);
 
   U8G2& handle();

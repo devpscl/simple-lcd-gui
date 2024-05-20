@@ -25,6 +25,10 @@ LiquidCrystalU8GLIB2::LiquidCrystalU8GLIB2(U8G2 &u8g2, const CharOption& char_op
   clear();
 }
 
+void LiquidCrystalU8GLIB2::begin() {
+  u8g2_.begin();
+}
+
 void LiquidCrystalU8GLIB2::setCharMap(CharMap *char_map) {
   char_map_ = char_map;
 }
