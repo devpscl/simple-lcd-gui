@@ -15,6 +15,7 @@ enum class DialogType {
   MenuDialog,
   ResultDialog,
   InputDialog,
+  RenderDialog,
   Custom
 };
 
@@ -138,6 +139,21 @@ class InputDialog : public GuiDialog {
   DialogType type() const override;
 
 };
+
+#ifdef LCD_U8G2_
+
+class U8G2Dialog : public GuiDialog {
+ public:
+  DialogType type() const override;
+
+ protected:
+  void render(LiquidCrystalGui &lcg) final;
+
+  virtual void render(U8G2 &u8g2, LiquidCrystalGui &lcg);
+
+};
+
+#endif
 
 }
 
