@@ -16,7 +16,7 @@
 #define LCD_I2C_ 1
 #include <LiquidCrystal_I2C.h>
 #elif (__has_include("U8g2lib.h") && !defined(LCD_OVERRIDE_DEFAULT) && !defined(LCD_OVERRIDE_I2C)) \
-|| defined(LCD_OVERRIDE_U8GLIB)
+|| defined(LCD_OVERRIDE_U8G2)
 #define LCD_U8G2_ 1
 #include "lcdu8g2.h"
 #else
