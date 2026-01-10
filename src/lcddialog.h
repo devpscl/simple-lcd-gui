@@ -20,9 +20,8 @@ enum class DialogType {
 };
 
 class GuiDialog {
-
- private:
   gui_dialog parent_dialog_;
+  dialog_event_t event_ = nullptr;
 
   void setInstance(LiquidCrystalGui* lcg);
 
@@ -49,6 +48,8 @@ class GuiDialog {
 
   virtual ~GuiDialog();
 
+  void listener(dialog_event_t listener);
+
   virtual gui_dialog clone();
 
   gui_dialog parentDialog();
@@ -64,6 +65,10 @@ class GuiDialog {
   void updateDisplay();
 
   bool isOpened();
+
+  void openChild(gui_dialog dialog);
+
+  void dispatchDialogEvent(uint8_t event);
 
   virtual DialogType type() const;
 

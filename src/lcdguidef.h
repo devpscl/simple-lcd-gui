@@ -58,6 +58,9 @@ typedef LiquidCrystalU8GLIB2* lcd_native_type;
 #define DIALOG_ONLY_CLOSE       1
 #define DIALOG_DISPOSE          2
 
+#define DIALOG_EVENT_CLOSE       0
+#define DIALOG_EVENT_OPEN        1
+
 class LiquidCrystalGui;
 
 class GuiDialog;
@@ -79,6 +82,8 @@ typedef void (*option_change_event_t)(uint8_t index);
 typedef int (*result_choose_event_t)(uint8_t option);
 
 typedef bool (*input_event_t)(uint8_t input);
+
+typedef void (*dialog_event_t)(gui_dialog dialog,uint8_t event);
 
 struct DisplayInfo {
   const uint8_t columns;

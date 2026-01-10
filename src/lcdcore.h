@@ -92,7 +92,7 @@ class LiquidCrystalGui {
 
   void begin(bool initialize_lcd = true);
 
-  gui_dialog currentDialog();
+  gui_dialog currentDialog() const;
 
   void openDialog(gui_dialog dialog);
 

@@ -266,8 +266,6 @@ class MenuDialog : public GuiDialog {
     return reinterpret_cast<T>(itemAt(index));
   }
 
-  void openChild(gui_dialog dialog);
-
   DialogType type() const override;
 
 };
