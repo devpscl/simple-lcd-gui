@@ -16,7 +16,7 @@ void CounterMenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
   }
   if(item_style_ == OptionItemStyle::ColonSplit) {
     uint8_t len = num_str.length() + 1;
-    uint8_t space_between = max_length - strlen(text_) - len;
+    uint8_t space_between = max_length - text_.length() - len;
     if(len >= max_length || space_between & 0x80) {
       return;
     }
@@ -52,13 +52,27 @@ bool CounterMenuItem::input(const uint8_t &input, menu_dialog dialog) {
   return EVENT_SEND;
 }
 
-CounterMenuItem::CounterMenuItem(const char* text,
+CounterMenuItem::CounterMenuItem(const String& text,
                                  int16_t value,
                                  int16_t min_value,
                                  int16_t max_value,
                                  OptionItemStyle item_style,
                                  counter_change_event_t change_event) {
   text_ = text;
+  value_ = value;
+  min_value_ = min_value;
+  max_value_ = max_value;
+  item_style_ = item_style;
+  change_event_ = change_event;
+}
+
+CounterMenuItem::CounterMenuItem(const char* text,
+                                 int16_t value,
+                                 int16_t min_value,
+                                 int16_t max_value,
+                                 OptionItemStyle item_style,
+                                 counter_change_event_t change_event) {
+  text_ = String(text);
   value_ = value;
   min_value_ = min_value;
   max_value_ = max_value;
@@ -96,13 +110,18 @@ counter_change_event_t CounterMenuItem::changeEvent() {
   return change_event_;
 }
 
-const char* CounterMenuItem::text() const {
-  return  text_ ;
+String CounterMenuItem::text() const {
+  return text_ ;
+}
+
+void CounterMenuItem::text(String& text) {
+  text_ = text;
 }
 
 void CounterMenuItem::text(const char* text) {
-  text_ = text;
+  text_ = String(text);
 }
+
 
 menu_item CounterMenuItem::clone() const {
   return new CounterMenuItem(text_, value_, min_value_,

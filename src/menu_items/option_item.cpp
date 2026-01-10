@@ -4,10 +4,10 @@ using namespace lcdgui;
 
 void OptionMenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
   String option_str = option_list_->option(option_cursor_);
-  buffer << text_;
+  buffer << text_.c_str();
   if(item_style_ == OptionItemStyle::Bracketed) {
     uint8_t len = option_str.length() + 2;
-    uint8_t space_between = max_length - strlen(text_) - len;
+    uint8_t space_between = max_length - text_.length() - len;
     if(len >= max_length || space_between & 0x80) {
       return;
     }
@@ -18,7 +18,7 @@ void OptionMenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
   }
   if(item_style_ == OptionItemStyle::ColonSplit) {
     uint8_t len = option_str.length() + 1;
-    uint8_t space_between = max_length - strlen(text_) - len;
+    uint8_t space_between = max_length - text_.length() - len;
     if(len >= max_length || space_between & 0x80) {
       return;
     }
@@ -60,7 +60,7 @@ bool OptionMenuItem::input(const uint8_t &input, menu_dialog dialog) {
   return EVENT_SEND;
 }
 
-OptionMenuItem::OptionMenuItem(const char* text, option_list option_list,
+OptionMenuItem::OptionMenuItem(const String& text, option_list option_list,
                                const OptionItemStyle& item_style,
                                option_change_event_t change_event) {
   text_ = text;
@@ -68,6 +68,16 @@ OptionMenuItem::OptionMenuItem(const char* text, option_list option_list,
   item_style_ = item_style;
   change_event_ = change_event;
 }
+
+OptionMenuItem::OptionMenuItem(const char* text, option_list option_list,
+                               const OptionItemStyle& item_style,
+                               option_change_event_t change_event) {
+  text_ = String(text);
+  option_list_ = option_list;
+  item_style_ = item_style;
+  change_event_ = change_event;
+}
+
 
 option_change_event_t OptionMenuItem::changeEvent() {
   return change_event_;
@@ -89,12 +99,16 @@ void OptionMenuItem::currentOption(const uint8_t &index) {
   option_cursor_ = index;
 }
 
-const char* OptionMenuItem::text() const {
+String OptionMenuItem::text() const {
   return  text_ ;
 }
 
-void OptionMenuItem::text(const char* text) {
+void OptionMenuItem::text(const String& text) {
   text_ = text;
+}
+
+void OptionMenuItem::text(const char* text) {
+  text_ = String(text);
 }
 
 menu_item OptionMenuItem::clone() const {

@@ -16,8 +16,13 @@ bool ActionMenuItem::input(const uint8_t &input, menu_dialog dialog) {
   return EVENT_SEND;
 }
 
-ActionMenuItem::ActionMenuItem(const char* text, action_event_t action_event) {
+ActionMenuItem::ActionMenuItem(const String& text, action_event_t action_event) {
   text_ = text;
+  event_ = action_event;
+}
+
+ActionMenuItem::ActionMenuItem(const char* text, action_event_t action_event) {
+  text_ = String(text);
   event_ = action_event;
 }
 
@@ -25,8 +30,12 @@ action_event_t ActionMenuItem::event() {
   return event_;
 }
 
-const char* ActionMenuItem::text() const {
+String ActionMenuItem::text() const {
   return  text_ ;
+}
+
+void ActionMenuItem::text(const String& text) {
+  text_ = text;
 }
 
 void ActionMenuItem::text(const char* text) {

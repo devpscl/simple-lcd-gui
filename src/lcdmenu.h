@@ -72,7 +72,7 @@ class MenuItem {
 };
 
 class DummyMenuItem : public MenuItem {
-  const char* text_;
+  String text_;
 
  protected:
   void build(LcdBuffer &buffer, const uint8_t &max_length) override;
@@ -80,9 +80,13 @@ class DummyMenuItem : public MenuItem {
   bool input(const uint8_t &input, menu_dialog dialog) override;
 
  public:
+  explicit DummyMenuItem(const String& text);
+
   explicit DummyMenuItem(const char* text);
 
-  const char* text() const;
+  String text() const;
+
+  void text(const String& text);
 
   void text(const char* text);
 
@@ -93,7 +97,7 @@ class DummyMenuItem : public MenuItem {
 };
 
 class ActionMenuItem : public MenuItem {
-  const char* text_;
+  String text_;
   action_event_t event_;
 
  protected:
@@ -102,11 +106,15 @@ class ActionMenuItem : public MenuItem {
   bool input(const uint8_t &input, menu_dialog dialog) override;
 
  public:
+  explicit ActionMenuItem(const String& text, action_event_t action_event = nullptr);
+
   explicit ActionMenuItem(const char* text, action_event_t action_event = nullptr);
 
   action_event_t event();
 
-  const char* text() const;
+  String text() const;
+
+  void text(const String& text);
 
   void text(const char* text);
 
@@ -117,7 +125,7 @@ class ActionMenuItem : public MenuItem {
 };
 
 class CounterMenuItem : public MenuItem {
-  const char* text_;
+  String text_;
   int16_t value_ = 0;
   int16_t min_value_ = 0;
   int16_t max_value_ = 0;
@@ -131,9 +139,13 @@ class CounterMenuItem : public MenuItem {
 
  public:
 
-  explicit CounterMenuItem(const char* text, int16_t value = 0, int16_t min_value = 0,
+  explicit CounterMenuItem(const String& text, int16_t value = 0, int16_t min_value = 0,
                   int16_t max_value = 10, OptionItemStyle item_style = OptionItemStyle::Bracketed,
                   counter_change_event_t change_event = nullptr);
+
+  explicit CounterMenuItem(const char* text, int16_t value = 0, int16_t min_value = 0,
+                int16_t max_value = 10, OptionItemStyle item_style = OptionItemStyle::Bracketed,
+                counter_change_event_t change_event = nullptr);
 
   int16_t value() const;
 
@@ -149,7 +161,9 @@ class CounterMenuItem : public MenuItem {
 
   counter_change_event_t changeEvent();
 
-  const char* text() const;
+  String text() const;
+
+  void text(String& text);
 
   void text(const char* text);
 
@@ -160,7 +174,7 @@ class CounterMenuItem : public MenuItem {
 };
 
 class OptionMenuItem : public MenuItem {
-  const char* text_;
+  String text_;
   option_list option_list_;
   option_change_event_t change_event_;
   uint8_t option_cursor_ = 0;
@@ -173,6 +187,10 @@ class OptionMenuItem : public MenuItem {
 
  public:
 
+  OptionMenuItem(const String& text, option_list option_list,
+                 const OptionItemStyle& item_style = OptionItemStyle::Bracketed,
+                 option_change_event_t change_event = nullptr);
+
   OptionMenuItem(const char* text, option_list option_list,
                  const OptionItemStyle& item_style = OptionItemStyle::Bracketed,
                  option_change_event_t change_event = nullptr);
@@ -183,7 +201,9 @@ class OptionMenuItem : public MenuItem {
 
   void currentOption(const uint8_t& index);
 
-  const char* text() const;
+  String text() const;
+
+  void text(const String& text);
 
   void text(const char* text);
 

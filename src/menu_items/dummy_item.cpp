@@ -10,17 +10,26 @@ bool DummyMenuItem::input(const uint8_t &input, menu_dialog dialog) {
   return EVENT_SEND;
 }
 
-DummyMenuItem::DummyMenuItem(const char* text) {
+DummyMenuItem::DummyMenuItem(const String& text) {
   text_ = text;
 }
 
-const char* DummyMenuItem::text() const {
+DummyMenuItem::DummyMenuItem(const char* text) {
+  text_ = String(text);
+}
+
+String DummyMenuItem::text() const {
   return  text_ ;
 }
 
-void DummyMenuItem::text(const char* text) {
+void DummyMenuItem::text(const String& text) {
   text_ = text;
 }
+
+void DummyMenuItem::text(const char* text) {
+  text_ = String(text);
+}
+
 
 menu_item DummyMenuItem::clone() const {
   return new DummyMenuItem(text_);
