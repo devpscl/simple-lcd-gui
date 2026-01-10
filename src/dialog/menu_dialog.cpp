@@ -173,13 +173,6 @@ gui_dialog MenuDialog::clone() {
   return new MenuDialog(menu_items_, item_count_);
 }
 
-void MenuDialog::openChild(gui_dialog dialog) {
-  if(lcg_instance != nullptr) {
-    dialog->parentDialog(this);
-    lcg_instance->openDialog(dialog);
-  }
-}
-
 DialogType MenuDialog::type() const {
   return DialogType::MenuDialog;
 }
