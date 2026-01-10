@@ -76,12 +76,13 @@ void LiquidCrystalGui::begin(bool initialize_lcd) {
 #endif
 }
 
-gui_dialog LiquidCrystalGui::currentDialog() {
+gui_dialog LiquidCrystalGui::currentDialog() const {
   return current_dialog_;
 }
 
 void LiquidCrystalGui::openDialog(gui_dialog dialog) {
   if(current_dialog_ != nullptr) {
+    currentDialog()->dispatchDialogEvent(DIALOG_EVENT_CLOSE);
     current_dialog_->disable(*this);
   }
   current_dialog_ = dialog;
@@ -89,11 +90,13 @@ void LiquidCrystalGui::openDialog(gui_dialog dialog) {
     current_dialog_->setInstance(this);
   }
   current_dialog_->enable(*this);
+  currentDialog()->dispatchDialogEvent(DIALOG_EVENT_OPEN);
   updateDisplay();
 }
 
 void LiquidCrystalGui::closeDialog() {
   if(current_dialog_ != nullptr) {
+    currentDialog()->dispatchDialogEvent(DIALOG_EVENT_CLOSE);
     current_dialog_->disable(*this);
   }
   current_dialog_ = nullptr;
@@ -102,6 +105,7 @@ void LiquidCrystalGui::closeDialog() {
 
 void LiquidCrystalGui::disposeDialog() {
   if(current_dialog_ != nullptr) {
+    currentDialog()->dispatchDialogEvent(DIALOG_EVENT_CLOSE);
     current_dialog_->disable(*this);
   }
   delete current_dialog_;

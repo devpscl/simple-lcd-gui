@@ -36,6 +36,10 @@ gui_dialog GuiDialog::clone() {
   return new GuiDialog();
 }
 
+void GuiDialog::listener(const dialog_event_t listener) {
+  event_ = listener;
+}
+
 gui_dialog GuiDialog::parentDialog() {
   return parent_dialog_;
 }
@@ -81,6 +85,20 @@ bool GuiDialog::isOpened() {
   }
   return lcg_instance->currentDialog() == this;
 }
+
+void GuiDialog::openChild(gui_dialog dialog) {
+  if(lcg_instance != nullptr) {
+    dialog->parentDialog(this);
+    lcg_instance->openDialog(dialog);
+  }
+}
+
+void GuiDialog::dispatchDialogEvent(uint8_t event) {
+  if (event_ != nullptr) {
+    event_(this, event);
+  }
+}
+
 
 DialogType GuiDialog::type() const {
   return DialogType::Custom;
