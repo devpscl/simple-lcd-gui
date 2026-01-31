@@ -22,6 +22,20 @@ void GuiDialog::disable(LiquidCrystalGui &lcg) {
   //do nothing
 }
 
+void GuiDialog::inputRotaryEncoder(LiquidCrystalGui &lcg, const bool cw, const bool ccw, const bool pressed) {
+  if (cw) {
+    input(lcg, LCD_INPUT_RIGHT);
+    return;
+  }
+  if (ccw) {
+    input(lcg, LCD_INPUT_LEFT);
+    return;
+  }
+  if (pressed) {
+    input(lcg, LCD_INPUT_OK);
+  }
+}
+
 GuiDialog::GuiDialog(gui_dialog parent_dialog) {
   parent_dialog_ = parent_dialog;
 }

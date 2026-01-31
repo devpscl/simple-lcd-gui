@@ -62,6 +62,44 @@ void MenuDialog::input(LiquidCrystalGui& lcg, const uint8_t &input) {
   }
 }
 
+void MenuDialog::inputRotaryEncoder(LiquidCrystalGui& lcg, const bool cw, const bool ccw, const bool pressed) {
+  auto item = itemAt(item_cursor_);
+  if (pressed) {
+    if (flags_ & MENU_FLAG_EDIT_MODE) {
+      flags(flags_ & ~MENU_FLAG_EDIT_MODE);
+      updateDisplay();
+      return;
+    }
+    if (item == nullptr) {
+      return;
+    }
+    if (item->is_multi_editable()) {
+      flags(flags_ | MENU_FLAG_EDIT_MODE);
+      updateDisplay();
+      return;
+    }
+    input(lcg, LCD_INPUT_OK);
+    return;
+  }
+  if (flags_ & MENU_FLAG_EDIT_MODE) {
+    if (ccw) {
+      input(lcg, LCD_INPUT_LEFT);
+      return;
+    }
+    if (cw) {
+      input(lcg, LCD_INPUT_RIGHT);
+    }
+    return;
+  }
+  if (ccw) {
+    input(lcg, LCD_INPUT_UP);
+    return;
+  }
+  if (cw) {
+    input(lcg, LCD_INPUT_DOWN);
+  }
+}
+
 void MenuDialog::enable(LiquidCrystalGui &lcg) {
   lcg.flags(0);
 }
@@ -122,14 +160,20 @@ void MenuDialog::renderRow(uint8_t row) {
   if(item_index >= item_count_) {
     line_buffer.space(cols);
   } else {
+    char cursor_col = item_cursor_ == item_index ? LCD_CHAR_ARROW_RIGHT : LCD_CHAR_SPACE;
+    char arrow_col;
+    if (flags_ & MENU_FLAG_EDIT_MODE) {
+      arrow_col = item_cursor_ == item_index ? LCD_CHAR_ARROW_LEFT : LCD_CHAR_SPACE;
+    } else {
+      arrow_col = row == 0 && cursor_offset_ > 0 ? LCD_CHAR_ARROW_UP :
+                    row == rows - 1 && item_index < item_count_ - 1 ? LCD_CHAR_ARROW_DOWN : LCD_CHAR_SPACE;
+    }
     LcdBuffer item_buffer;
     menu_items_[item_index]->build(item_buffer, max_len);
     item_buffer.resize(max_len);
-
-    line_buffer << (item_cursor_ == item_index ? LCD_CHAR_ARROW_RIGHT : LCD_CHAR_SPACE);
+    line_buffer << cursor_col;
     line_buffer << item_buffer;
-    line_buffer << ((row == 0 && cursor_offset_ > 0) ? LCD_CHAR_ARROW_UP :
-                    (row == rows - 1 && item_index < item_count_ - 1 ? LCD_CHAR_ARROW_DOWN : LCD_CHAR_SPACE));
+    line_buffer << arrow_col;
   }
   lcg_instance->cursor(0, row);
   lcg_instance->print(line_buffer.str());

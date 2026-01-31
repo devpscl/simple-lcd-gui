@@ -34,6 +34,8 @@ class GuiDialog {
 
   virtual void input(LiquidCrystalGui& lcg, const uint8_t &input);
 
+  virtual void inputRotaryEncoder(LiquidCrystalGui& lcg, bool cw, bool ccw, bool pressed);
+
   virtual void enable(LiquidCrystalGui& lcg);
 
   virtual void disable(LiquidCrystalGui& lcg);

@@ -122,6 +122,9 @@ void CounterMenuItem::text(const char* text) {
   text_ = String(text);
 }
 
+bool CounterMenuItem::is_multi_editable() const {
+  return true;
+}
 
 menu_item CounterMenuItem::clone() const {
   return new CounterMenuItem(text_, value_, min_value_,

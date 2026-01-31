@@ -6,6 +6,7 @@ namespace lcdgui {
 
 #define MENU_FLAG_CYLINDER_SCROLL     0x1
 #define MENU_FLAG_DISALLOW_MUTLIMENU  0x2
+#define MENU_FLAG_EDIT_MODE           0x4
 
 
 class MenuItem;
@@ -68,6 +69,9 @@ class MenuItem {
   virtual menu_item clone() const;
 
   virtual ItemType type() const;
+
+  /**editable with left,right input*/
+  virtual bool is_multi_editable() const;
 
 };
 
@@ -167,6 +171,8 @@ class CounterMenuItem : public MenuItem {
 
   void text(const char* text);
 
+  bool is_multi_editable() const override;
+
   menu_item clone() const override;
 
   ItemType type() const override;
@@ -207,6 +213,8 @@ class OptionMenuItem : public MenuItem {
 
   void text(const char* text);
 
+  bool is_multi_editable() const override;
+
   menu_item clone() const override;
 
   ItemType type() const override;
@@ -228,7 +236,9 @@ class MenuDialog : public GuiDialog {
 
   void enable(LiquidCrystalGui &lcg) override;
 
- public:
+  void inputRotaryEncoder(LiquidCrystalGui& lcg, bool cw, bool ccw, bool pressed) override;
+
+public:
   MenuDialog(gui_dialog parent, MenuItem** menu_items, const size_t &count);
 
   MenuDialog(MenuItem** menu_items, const size_t &count);

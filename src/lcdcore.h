@@ -102,6 +102,8 @@ class LiquidCrystalGui {
 
   void dispatchInput(const uint8_t& input);
 
+  void dispatchRotaryEncoderInput(bool cw, bool ccw, bool pressed);
+
   void updateDisplay();
 
   lcd_native_type nativeLcd() const;

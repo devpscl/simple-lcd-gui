@@ -2,20 +2,24 @@
 
 using namespace lcdgui;
 
-void lcdgui::MenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
+void MenuItem::build(LcdBuffer &buffer, const uint8_t &max_length) {
   //do nothing
 }
 
-bool lcdgui::MenuItem::input(const uint8_t &input, menu_dialog dialog) {
+bool MenuItem::input(const uint8_t &input, menu_dialog dialog) {
   return EVENT_SEND;
 }
 
-menu_item lcdgui::MenuItem::clone() const {
+menu_item MenuItem::clone() const {
   return new MenuItem();
 }
 
-ItemType lcdgui::MenuItem::type() const {
+ItemType MenuItem::type() const {
   return ItemType::Custom;
+}
+
+bool MenuItem::is_multi_editable() const {
+  return false;
 }
 
 MenuItem::~MenuItem() = default;

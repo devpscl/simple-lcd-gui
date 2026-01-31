@@ -111,6 +111,10 @@ void OptionMenuItem::text(const char* text) {
   text_ = String(text);
 }
 
+bool OptionMenuItem::is_multi_editable() const {
+  return true;
+}
+
 menu_item OptionMenuItem::clone() const {
   return new OptionMenuItem(text_, option_list_, item_style_,
                             change_event_);
