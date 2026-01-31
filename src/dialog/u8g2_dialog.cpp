@@ -1,4 +1,4 @@
-#include "lcddialog.h"
+#include "../../include/lcddialog.h"
 #ifdef LCD_U8G2_
 
 using namespace lcdgui;

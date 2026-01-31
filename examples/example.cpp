@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <SPI.h>
-#include <lcdgui.h>
+#include <../include/lcdgui.h>
 
 #define PIN_CS 5
 

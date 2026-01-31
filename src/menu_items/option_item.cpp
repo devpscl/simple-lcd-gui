@@ -1,4 +1,4 @@
-#include "lcdmenu.h"
+#include "../../include/lcdmenu.h"
 
 using namespace lcdgui;
 

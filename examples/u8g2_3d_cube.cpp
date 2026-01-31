@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <lcdgui.h>
+#include <../include/lcdgui.h>
 #include <SPI.h>
 
 using namespace lcdgui;
