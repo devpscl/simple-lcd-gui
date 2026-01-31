@@ -60,18 +60,22 @@ void LiquidCrystalGui::begin(bool initialize_lcd) {
   auto* arrow_up_data = new uint8_t[11]LCD_DATA_ARROW_UP_6x11;
   auto* arrow_down_data = new uint8_t[11]LCD_DATA_ARROW_DOWN_6x11;
   auto* arrow_right_data = new uint8_t[11]LCD_DATA_ARROW_RIGHT_6x11;
-  auto* map = new CharMap(3);
+  auto* arrow_left_data = new uint8_t[11]LCD_DATA_ARROW_LEFT_6x11;
+  auto* map = new CharMap(4);
   map->put(LCD_CHAR_ARROW_UP, arrow_up_data);
   map->put(LCD_CHAR_ARROW_DOWN, arrow_down_data);
   map->put(LCD_CHAR_ARROW_RIGHT, arrow_right_data);
+  map->put(LCD_CHAR_ARROW_LEFT, arrow_left_data);
   native_type_->setCharMap(map);
 #else
   uint8_t arrow_up_data[] = LCD_DATA_ARROW_UP_5x8;
   uint8_t arrow_down_data[] = LCD_DATA_ARROW_DOWN_5x8;
   uint8_t arrow_right_data[] = LCD_DATA_ARROW_RIGHT_5x8;
+  uint8_t arrow_left_data[] = LCD_DATA_ARROW_LEFT_5x8;
   native_type_->createChar(LCD_CHAR_ARROW_UP, arrow_up_data);
   native_type_->createChar(LCD_CHAR_ARROW_DOWN, arrow_down_data);
   native_type_->createChar(LCD_CHAR_ARROW_RIGHT, arrow_right_data);
+  native_type_->createChar(LCD_CHAR_ARROW_LEFT, arrow_left_data);
 
 #endif
 }
@@ -112,7 +116,6 @@ void LiquidCrystalGui::disposeDialog() {
   current_dialog_ = nullptr;
   native_type_->clear();
 }
-
 
 void LiquidCrystalGui::dispatchInput(const uint8_t &input) {
   if(current_dialog_ != nullptr) {

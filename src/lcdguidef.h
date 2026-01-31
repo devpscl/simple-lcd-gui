@@ -50,9 +50,10 @@ typedef LiquidCrystalU8GLIB2* lcd_native_type;
 #endif
 
 #define LCD_CHAR_SPACE          ' '
-#define LCD_CHAR_ARROW_UP       '\u0001'
-#define LCD_CHAR_ARROW_DOWN     '\u0002'
-#define LCD_CHAR_ARROW_RIGHT    '\u0003'
+#define LCD_CHAR_ARROW_UP       '\1'
+#define LCD_CHAR_ARROW_DOWN     '\2'
+#define LCD_CHAR_ARROW_RIGHT    '\3'
+#define LCD_CHAR_ARROW_LEFT     '\4'
 
 #define DIALOG_DO_NOTHING       0
 #define DIALOG_ONLY_CLOSE       1
@@ -124,6 +125,16 @@ struct DisplayInfo {
 0x00  \
 }
 
+#define LCD_DATA_ARROW_LEFT_5x8 { \
+0x00, \
+0x04, \
+0x08, \
+0x1F, \
+0x08, \
+0x04, \
+0x00, \
+0x00 \
+};
 
 #define LCD_DATA_ARROW_UP_6x9 { \
 0b000000, \
@@ -158,6 +169,18 @@ struct DisplayInfo {
 0b000010, \
 0b000100, \
 0b001000, \
+0b000000  \
+}
+
+#define LCD_DATA_ARROW_LEFT_6x9 { \
+0b000000, \
+0b000100, \
+0b001000, \
+0b010000, \
+0b111110, \
+0b010000, \
+0b001000, \
+0b000100, \
 0b000000  \
 }
 
@@ -199,6 +222,20 @@ struct DisplayInfo {
 0b000010, \
 0b000100, \
 0b001000, \
+0b000000, \
+0b000000  \
+}
+
+#define LCD_DATA_ARROW_LEFT_6x11 { \
+0b000000, \
+0b000000, \
+0b000100, \
+0b001000, \
+0b010000, \
+0b111110, \
+0b010000, \
+0b001000, \
+0b000100, \
 0b000000, \
 0b000000  \
 }
