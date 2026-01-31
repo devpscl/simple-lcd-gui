@@ -35,7 +35,7 @@ bool OptionMenuItem::input(const uint8_t &input, menu_dialog dialog) {
   if(count == 0) {
     return EVENT_SEND;
   }
-  if(input == LCD_INPUT_RIGHT) {
+  if(input == LCD_INPUT_RIGHT || (input == LCD_INPUT_OK && !is_multi_editable())) {
     option_cursor_++;
     if(option_cursor_ >= count) {
       option_cursor_ = 0;
@@ -112,7 +112,7 @@ void OptionMenuItem::text(const char* text) {
 }
 
 bool OptionMenuItem::is_multi_editable() const {
-  return true;
+  return option_list_->count() > 2;
 }
 
 menu_item OptionMenuItem::clone() const {
