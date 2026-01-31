@@ -123,6 +123,13 @@ void LiquidCrystalGui::dispatchInput(const uint8_t &input) {
   }
 }
 
+void LiquidCrystalGui::dispatchRotaryEncoderInput(const bool cw, const bool ccw, const bool pressed) {
+  if(current_dialog_ != nullptr) {
+    current_dialog_->inputRotaryEncoder(*this, cw, ccw, pressed);
+  }
+}
+
+
 void LiquidCrystalGui::updateDisplay() {
 #ifdef LCD_U8G2_
   native_type_->autoFlush(true);
